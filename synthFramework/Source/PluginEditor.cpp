@@ -12,31 +12,43 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor (SynthesizerAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p)
+JuceSynthFrameworkAudioProcessorEditor::JuceSynthFrameworkAudioProcessorEditor (JuceSynthFrameworkAudioProcessor& p)
+    : AudioProcessorEditor (&p), processor (p), oscGui(p), osc2Gui(p), envGui(p), filterGui(p), frontGui(p)
 {
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    setSize (1000, 200);
+    
+    addAndMakeVisible(&oscGui);
+    addAndMakeVisible(&osc2Gui);
+    addAndMakeVisible(&envGui);
+    addAndMakeVisible(&filterGui);
+    addAndMakeVisible(&frontGui);
 }
 
-SynthesizerAudioProcessorEditor::~SynthesizerAudioProcessorEditor()
+JuceSynthFrameworkAudioProcessorEditor::~JuceSynthFrameworkAudioProcessorEditor()
 {
 }
 
 //==============================================================================
-void SynthesizerAudioProcessorEditor::paint (Graphics& g)
+void JuceSynthFrameworkAudioProcessorEditor::paint (Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
-
-    g.setColour (Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
+    g.fillAll(Colours::black);
 }
 
-void SynthesizerAudioProcessorEditor::resized()
+void JuceSynthFrameworkAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    juce::Rectangle<int> area = getLocalBounds();
+    
+    const int componentWidth = 200;
+    const int componentHeight = 200;
+    
+    oscGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+    osc2Gui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+    filterGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+    envGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+    frontGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+    
+    
+
 }
+
+

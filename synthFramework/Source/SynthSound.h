@@ -2,25 +2,29 @@
   ==============================================================================
 
     SynthSound.h
-    Created: 15 May 2020 2:09:22pm
-    Author:  Francesco Lorenzo
+    Created: 29 Oct 2017 10:18:47am
+    Author:  Joshua Hodge
 
   ==============================================================================
 */
 
 #pragma once
+
 #include "../JuceLibraryCode/JuceHeader.h"
+
+
 
 class SynthSound : public SynthesiserSound
 {
-  public:
-    bool appliesToNote (int /*midiNoteNumber*/)
+
+public:
+    bool appliesToNote (int midiNoteNumber) override
     {
         return true;
     }
     
-    bool appliesToChannel(int /*midiNoteNumber*/)
+    bool appliesToChannel (int midiNoteNumber) override
     {
         return true;
-    }
+    }    
 };

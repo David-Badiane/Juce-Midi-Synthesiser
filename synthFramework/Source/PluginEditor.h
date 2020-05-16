@@ -10,26 +10,41 @@
 
 #pragma once
 
-#include <JuceHeader.h>
+#include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
+#include "Oscillator.h"
+#include "Oscillator2.h"
+#include "Envelope.h"
+#include "Filter.h"
+#include "Frontgui.h"
+
 
 //==============================================================================
 /**
 */
-class SynthesizerAudioProcessorEditor  : public AudioProcessorEditor
+class JuceSynthFrameworkAudioProcessorEditor  : public AudioProcessorEditor
+
 {
 public:
-    SynthesizerAudioProcessorEditor (SynthesizerAudioProcessor&);
-    ~SynthesizerAudioProcessorEditor();
+    JuceSynthFrameworkAudioProcessorEditor (JuceSynthFrameworkAudioProcessor&);
+    ~JuceSynthFrameworkAudioProcessorEditor();
 
     //==============================================================================
     void paint (Graphics&) override;
     void resized() override;
+    
+    
 
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
-    SynthesizerAudioProcessor& processor;
+    JuceSynthFrameworkAudioProcessor& processor;
+    
+    Oscillator oscGui;
+    Oscillator2 osc2Gui;
+    Envelope envGui;
+    Filter filterGui;
+    Frontgui frontGui;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthesizerAudioProcessorEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (JuceSynthFrameworkAudioProcessorEditor)
 };

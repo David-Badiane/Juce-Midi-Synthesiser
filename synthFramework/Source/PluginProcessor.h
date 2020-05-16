@@ -10,19 +10,19 @@
 
 #pragma once
 
-#include <JuceHeader.h>
-#include "SynthSound.h"
+#include "../JuceLibraryCode/JuceHeader.h"
 #include "SynthVoice.h"
+#include "SynthSound.h"
 
 //==============================================================================
 /**
 */
-class SynthesizerAudioProcessor  : public AudioProcessor
+class JuceSynthFrameworkAudioProcessor  : public AudioProcessor
 {
 public:
     //==============================================================================
-    SynthesizerAudioProcessor();
-    ~SynthesizerAudioProcessor();
+    JuceSynthFrameworkAudioProcessor();
+    ~JuceSynthFrameworkAudioProcessor();
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -32,7 +32,7 @@ public:
     bool isBusesLayoutSupported (const BusesLayout& layouts) const override;
    #endif
 
-    void processBlock (AudioBuffer<float>&, MidiBuffer&) override;
+    void processBlock (AudioSampleBuffer&, MidiBuffer&) override;
 
     //==============================================================================
     AudioProcessorEditor* createEditor() override;
@@ -43,7 +43,7 @@ public:
 
     bool acceptsMidi() const override;
     bool producesMidi() const override;
-    bool isMidiEffect() const override;
+    bool isMidiEffect () const override;
     double getTailLengthSeconds() const override;
 
     //==============================================================================
@@ -56,13 +56,19 @@ public:
     //==============================================================================
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+    
+    void updateFilter();
+    
+    AudioProcessorValueTreeState tree;
 
 private:
     Synthesiser mySynth;
     SynthVoice* myVoice;
+
+    dsp::ProcessorDuplicator<dsp::StateVariableFilter::Filter<float> , dsp::StateVariableFilter::Parameters<float>> stateVariableFilter;
     
     double lastSampleRate;
     
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthesizerAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (JuceSynthFrameworkAudioProcessor)
 };
