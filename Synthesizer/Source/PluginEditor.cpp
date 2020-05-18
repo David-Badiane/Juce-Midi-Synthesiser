@@ -7,6 +7,7 @@ SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudi
     :AudioProcessorEditor(&p), processor(p), oscGui(p), envGui(p), filterGui(p)
 {
     setSize(1000, 200);
+    setResizable(true, true);
 
     addAndMakeVisible(&oscGui);
     addAndMakeVisible(&envGui);
