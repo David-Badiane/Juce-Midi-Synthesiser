@@ -38,7 +38,8 @@ SynthesizerAudioProcessor::SynthesizerAudioProcessor()
 
     //=======================================================================
     //initialisation
-{
+{   
+    box_selected = 1;
     initialiseSynth();
 }
 

@@ -8,12 +8,15 @@ Oscillator::Oscillator(SynthesizerAudioProcessor& p) :
 {
     setSize(200, 200);
 
-    oscMenu.addItem("Square", 1);
-    oscMenu.addItem("Saw", 2);
-    oscMenu.addItem("Sine", 3);
-    oscMenu.addItem("Triangle", 4);
+    oscMenu.addItem("Sine Wave", 1);
+    oscMenu.addItem("Saw Wave", 2);
+    oscMenu.addItem("Square Wave", 3);
+    oscMenu.addItem("Triangle Wave", 4);
     oscMenu.setJustificationType(Justification::centred);
     addAndMakeVisible(&oscMenu);
+    
+    oscMenu.setSelectedId(1);
+    oscMenu.addListener(this);
 
     waveSelection = new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "wavetype", oscMenu);
 }
@@ -42,4 +45,10 @@ void Oscillator::resized()
 {
     juce::Rectangle<int> area = getLocalBounds().reduced(40);
     oscMenu.setBounds(area.removeFromTop(20));
+}
+
+void Oscillator::comboBoxChanged(ComboBox* boxThatChanged)
+{
+    processor.box_selected = boxThatChanged->getSelectedId();
+    processor.initialiseSynth();
 }

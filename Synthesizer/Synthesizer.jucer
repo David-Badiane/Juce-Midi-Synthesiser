@@ -41,8 +41,8 @@
       <FILE id="BdQHxX" name="OSCSawWave.h" compile="0" resource="0" file="Source/OSCSawWave.h"/>
       <FILE id="wl2U4I" name="OSCSineWave.h" compile="0" resource="0" file="Source/OSCSineWave.h"/>
       <FILE id="ntvH8P" name="OSCSquareWave.h" compile="0" resource="0" file="Source/OSCSquareWave.h"/>
-      <FILE id="PALomb" name="Filter.h" compile="0" resource="0" file="../../JUCE/Synthesizer/Source/Filter.h"/>
-      <FILE id="zl5gio" name="Filter.cpp" compile="1" resource="0" file="../../JUCE/Synthesizer/Source/Filter.cpp"/>
+      <FILE id="zwXeBv" name="Filter.h" compile="0" resource="0" file="Source/Filter.h"/>
+      <FILE id="fB0yT4" name="Filter.cpp" compile="1" resource="0" file="Source/Filter.cpp"/>
       <FILE id="AW8o1k" name="OSCTriangleWave.h" compile="0" resource="0"
             file="Source/OSCTriangleWave.h"/>
     </GROUP>

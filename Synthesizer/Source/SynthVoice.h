@@ -3,7 +3,6 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SynthSound.h"
-#include "maximilian.h"
 
 class SynthVoice : public SynthesiserVoice
 {
@@ -64,33 +63,10 @@ public:
 
     //=======================================================
 
-    double setOscType()
-
-    {
-        double sample1;
-
-        if (theWave == 0)
-        {
-            sample1 = osc1.sinewave(frequency * 0.5);
-        }
-        if (theWave == 1)
-        {
-            sample1 = osc1.saw(frequency);
-        }
-        if (theWave == 2)
-        {
-            sample1 = osc1.sinewave(frequency * 2);
-        }
-        if (theWave == 3)
-        {
-            sample1 = osc1.triangle(frequency * 1.5);
-        }
-
-        return sample1;
-    }
+   
 
     //=======================================================
-
+    /*
     void getEnvelopeParams(std::atomic<float>* attack,
                            std::atomic<float>* decay, 
                            std::atomic<float>* sustain, 
@@ -101,12 +77,13 @@ public:
         env1.setSustain(*sustain);
         env1.setRelease(*release);
     }
+    */
 
     //=======================================================
 
     double setEnvelope()
     {
-        return env1.adsr(setOscType(), env1.trigger);
+        return 0;
     }
 
     //=======================================================
@@ -138,7 +115,7 @@ public:
     void startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition) override
     {
         noteNumber = midiNoteNumber;
-        env1.trigger = 1;
+
         setPitchBend(currentPitchWheelPosition);
         frequency = noteHz(noteNumber, pitchBendCents());
         level = velocity;
@@ -148,7 +125,7 @@ public:
 
     void stopNote(float velocity, bool allowTailOff) override
     {
-        env1.trigger = 0;
+ 
         allowTailOff = true;
 
         if (velocity == 0)
@@ -206,9 +183,7 @@ private:
     float cutoff;
     float resonance;
 
-    maxiOsc osc1, osc2;
-    maxiEnv env1;
-    maxiFilter filter1;
+
 
     double sampleRate;
 

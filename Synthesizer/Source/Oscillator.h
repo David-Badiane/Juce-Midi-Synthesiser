@@ -5,7 +5,8 @@
 #include "PluginProcessor.h"
 
 
-class Oscillator : public Component
+class Oscillator : public Component,
+                   public ComboBox::Listener
 {
 public:
     Oscillator(SynthesizerAudioProcessor&);
@@ -16,6 +17,8 @@ public:
 
 private:
     ComboBox oscMenu;
+    ComboBox::Listener* boxState;
+    void comboBoxChanged(ComboBox* boxState) override;
 
     ScopedPointer<AudioProcessorValueTreeState::ComboBoxAttachment> waveSelection;
 

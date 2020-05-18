@@ -49,7 +49,6 @@ public:
     void updateFilter();
     void process(dsp::ProcessContextReplacing<float> context);
 
-    int comboBoxID;
     int box_selected;
     const int numVoices = 3;
 

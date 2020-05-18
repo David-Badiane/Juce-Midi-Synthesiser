@@ -7,8 +7,7 @@
 #include "Filter.h"
 
 
-class SynthesizerAudioProcessorEditor : public AudioProcessorEditor,
-    public ComboBox::Listener
+class SynthesizerAudioProcessorEditor : public AudioProcessorEditor
 {
 public:
     SynthesizerAudioProcessorEditor(SynthesizerAudioProcessor&);
@@ -28,10 +27,6 @@ private:
     Oscillator oscGui;
     Envelope envGui;
     Filter filterGui;
-
-    ComboBox oscBox;
-    ComboBox::Listener* boxState;
-    void comboBoxChanged(ComboBox* boxState) override;
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthesizerAudioProcessorEditor);
