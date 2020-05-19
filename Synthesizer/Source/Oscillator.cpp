@@ -16,11 +16,21 @@ Oscillator::Oscillator(SynthesizerAudioProcessor& p) :
     oscMenu.addItem("BleepSquare Wave", 6);
     oscMenu.addItem("BleepTriangle Wave", 7);
     oscMenu.addItem("White Noise + Sin Wave", 8);
+    oscMenu.addItem("Sine Beats Wave", 9);
+    oscMenu.addItem("Sine Risset Beats Wave", 10);
+    oscMenu.addItem("Organ Wave", 11);
     oscMenu.setJustificationType(Justification::centred);
     addAndMakeVisible(&oscMenu);
     
     oscMenu.setSelectedId(1);
     oscMenu.addListener(this);
+
+    deltaFreq.setSliderStyle(Slider::SliderStyle::LinearHorizontal);
+    deltaFreq.setRange(0.1f, 20.0f);
+    deltaFreq.setValue(10.0f);
+    deltaFreq.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+    addAndMakeVisible(&deltaFreq);
+    deltaFreq.addListener(this);
 }
 
 Oscillator::~Oscillator()
@@ -47,10 +57,16 @@ void Oscillator::resized()
 {
     juce::Rectangle<int> area = getLocalBounds().reduced(40);
     oscMenu.setBounds(area.removeFromTop(20));
+    deltaFreq.setBounds(area.removeFromTop(50));
 }
 
 void Oscillator::comboBoxChanged(ComboBox* boxThatChanged)
 {
     processor.oscBoxSelected = boxThatChanged->getSelectedId();
     processor.initialiseSynth();
+}
+
+void Oscillator::sliderValueChanged(Slider* slider) 
+{
+    processor.deltaFrequency = deltaFreq.getValue();
 }

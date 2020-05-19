@@ -30,36 +30,20 @@ public:
 
 private:
 
-	template <typename FloatType>
-
-	void processBlock(AudioBuffer<FloatType>& outputBuffer, int startSample, int numSamples) 
+	void processBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) 
 	{
 		while (--numSamples >= 0)
 		{
 			if (modulo >= 1.0)
-			{
 				modulo -= 1.0;
-				const FloatType currentSample = static_cast<FloatType> (modulo * 2.0 - 1.0) * level;
 
-				for (int i = outputBuffer.getNumChannels(); --i >= 0;)
-					outputBuffer.addSample(i, startSample, adsr.getNextSample() * currentSample);
+			float Sample = static_cast<float> (modulo * 2.0 - 1.0) * level;
 
+			for (int i = outputBuffer.getNumChannels(); --i >= 0;)
+					outputBuffer.addSample(i, startSample, adsr.getNextSample() * Sample);
 
-				modulo += inc;
-				++startSample;
-			}
-			else
-			{
-				const FloatType currentSample =
-					static_cast<FloatType> (modulo * 2.0 - 1.0) * level;
-
-				for (int i = outputBuffer.getNumChannels(); --i >= 0;)
-					outputBuffer.addSample(i, startSample, adsr.getNextSample() * currentSample);
-
-				modulo += inc;
-				++startSample;
-
-			}
+			modulo += inc;
+			++startSample;
 		}
 	}
 

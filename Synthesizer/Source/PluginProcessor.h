@@ -9,6 +9,9 @@
 #include "BleepSquareWave.h"
 #include "BleepTriangleWave.h"
 #include "WhiteNoiseWave.h"
+#include "SineBeatsWave.h"
+#include "SineRissetBeatsWave.h"
+#include "OrganWave.h"
 
 
 //==============================================================================
@@ -57,6 +60,7 @@ public:
     void process(dsp::ProcessContextReplacing<float> context);
 
     int oscBoxSelected;
+    double deltaFrequency;
     const int numVoices = 3;
 
     void initialiseSynth();
@@ -74,6 +78,10 @@ private:
     BleepSawWaveVoice* myBleepSaw;
     BleepTriangleWaveVoice* myBleepTriangle;
     WhiteNoiseWaveVoice* myWhiteNoise;
+
+    SineBeatsWaveVoice* mySineBeats;
+    SineRissetBeatsWaveVoice* myRissetBeats;
+    OrganWaveVoice* myOrgan;
 
 
     // this is a processor duplicator of the filter, not a filter, we got The Filter itself and the Parameters inside the State Variable filter, pointers

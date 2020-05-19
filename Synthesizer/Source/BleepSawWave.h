@@ -49,39 +49,24 @@ private:
 		else return 0.0;
 	}
 
-	template <typename FloatType>
-	void processBlock(AudioBuffer<FloatType>& outputBuffer, int startSample, int numSamples)
+	void processBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples)
 	{
 		while (--numSamples >= 0)
 		{
 			if (modulo >= 1.0)
-			{
 				modulo -= 1.0;
-				double currentSample = (modulo * 2.0 - 1.0) * level;
-				double value = currentSample - polyBleep(modulo);
-				FloatType sample = static_cast<FloatType> (value);
+
+			double Sample = (modulo * 2.0 - 1.0) * level;
+			double value = Sample - polyBleep(modulo);
+			float sample = float(value);
 
 
-				for (int i = outputBuffer.getNumChannels(); --i >= 0;)
-					outputBuffer.addSample(i, startSample, adsr.getNextSample() * sample);
+			for (int i = outputBuffer.getNumChannels(); --i >= 0;)
+				outputBuffer.addSample(i, startSample, adsr.getNextSample() * sample);
 
-				modulo += inc;
-				++startSample;
-			}
-			else
-			{
-				double currentSample = (modulo * 2.0 - 1.0) * level;
-				double value = currentSample - polyBleep(modulo);
-				FloatType sample = static_cast<FloatType> (value);
+			modulo += inc;
+			++startSample;
 
-
-				for (int i = outputBuffer.getNumChannels(); --i >= 0;)
-					outputBuffer.addSample(i, startSample, adsr.getNextSample() * sample);
-
-				modulo += inc;
-				++startSample;
-
-			}
 		}
 	}
 

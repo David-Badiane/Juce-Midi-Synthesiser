@@ -119,6 +119,31 @@ void SynthesizerAudioProcessor::initialiseSynth()
         mySynth.addSound(new WhiteNoiseWaveSound());
 
         break;
+
+    case 9:
+        for (int i = numVoices; --i >= 0;)
+            mySynth.addVoice(new SineBeatsWaveVoice());
+
+        mySynth.addSound(new SineBeatsWaveSound());
+
+        break;
+
+    case 10:
+        for (int i = numVoices; --i >= 0;)
+            mySynth.addVoice(new SineRissetBeatsWaveVoice());
+
+        mySynth.addSound(new SineRissetBeatsWaveSound());
+
+        break;
+    
+    case 11:
+        for (int i = numVoices; --i >= 0;)
+            mySynth.addVoice(new OrganWaveVoice());
+
+        mySynth.addSound(new OrganWaveSound());
+
+        break;
+
     }
 
 
@@ -341,6 +366,31 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 8:
             if ((myWhiteNoise = dynamic_cast<WhiteNoiseWaveVoice*>(mySynth.getVoice(i))))
                myWhiteNoise->setADSRParameters(attack, release, sustain, decay);
+
+            break;
+
+        case 9:
+            if ((mySineBeats = dynamic_cast<SineBeatsWaveVoice*>(mySynth.getVoice(i))))
+            {   
+                mySineBeats->update_beats(deltaFrequency);
+                mySineBeats->setADSRParameters(attack, release, sustain, decay);
+            }
+            break;
+
+        case 10:
+            if ((myRissetBeats = dynamic_cast<SineRissetBeatsWaveVoice*>(mySynth.getVoice(i))))
+            {
+                myRissetBeats->update_beats(deltaFrequency);
+                myRissetBeats->setADSRParameters(attack, release, sustain, decay);
+            }
+            break;
+
+        case 11:
+            if ((myOrgan = dynamic_cast<OrganWaveVoice*>(mySynth.getVoice(i))))
+            {
+                myOrgan->update_beats(deltaFrequency);
+                myOrgan->setADSRParameters(attack, release, sustain, decay);
+            }
 
             break;
         }

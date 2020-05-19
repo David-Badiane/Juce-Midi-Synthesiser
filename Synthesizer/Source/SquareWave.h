@@ -31,7 +31,11 @@ public:
 		processBlock(outputBuffer, startSample, numSamples);
 	}
 
-	void processBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) 
+
+
+private:
+
+	void processBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples)
 	{
 		while (--numSamples >= 0)
 		{
@@ -39,29 +43,17 @@ public:
 			{
 				modulo -= 1.0;
 				currentState *= (-1.0);
-				const float currentSample = static_cast<float> (currentState * level);
-				for (int i = outputBuffer.getNumChannels(); --i >= 0;) {
-					outputBuffer.addSample(i, startSample, adsr.getNextSample() * currentSample);
-				}
-
-				modulo += inc;
-				++startSample;
 			}
-			else
-			{
-				const float currentSample = static_cast<float> (currentState * level);
-				for (int i = outputBuffer.getNumChannels(); --i >= 0;) {
-					outputBuffer.addSample(i, startSample, adsr.getNextSample() * currentSample);
-				}
-
-				modulo += inc;
-				++startSample;
-			}
+						
+		    float Sample = (float)(currentState * level);
+		    for (int i = outputBuffer.getNumChannels(); --i >= 0;) {
+		    	outputBuffer.addSample(i, startSample, adsr.getNextSample() * Sample);
+		    }
+		    
+		    modulo += inc;
+		    ++startSample;
 		}
-		
 	}
-
-private:
 
 	double level, modulo, currentState, inc;
 	int trigger;

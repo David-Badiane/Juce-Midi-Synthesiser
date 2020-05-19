@@ -49,42 +49,29 @@ private:
 		else return 0.0;
 	}
 
-	template <typename FloatType>
-	void processBlock(AudioBuffer<FloatType>& outputBuffer, int startSample, int numSamples)
+	void processBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples)
 	{
 		while (--numSamples >= 0)
 		{
-			if (modulo > 0.5)
-			{
-				currentState = -1.0;
-				currentState *= level;
-				currentState += polyBlep(modulo);
-				currentState -= polyBlep(fmod(modulo + 0.5, 1.0));
-				FloatType currentSample = static_cast<FloatType>(currentState);
-
-				for (int i = outputBuffer.getNumChannels(); --i >= 0;)
-					outputBuffer.addSample(i, startSample, adsr.getNextSample() * currentSample);
-
-				modulo += inc;
-				if (modulo >= 1.0)
+			if (modulo >= 1.0)
 					modulo -= 1.0;
 
-				++startSample;
-			}
+			if (modulo > 0.5)
+				currentState = -1.0;
 			else
-			{
 				currentState = 1.0;
-				currentState *= level;
-				currentState += polyBlep(modulo);
-				currentState -= polyBlep(fmod(modulo + 0.5, 1.0));
-				FloatType currentSample = static_cast<FloatType>(currentState);
+		
+			currentState *= level;
+			currentState += polyBlep(modulo);
+			currentState -= polyBlep(fmod(modulo + 0.5, 1.0));
+			float Sample = static_cast<float>(currentState);
 
-				for (int i = outputBuffer.getNumChannels(); --i >= 0;)
-					outputBuffer.addSample(i, startSample, adsr.getNextSample() * currentSample);
+			for (int i = outputBuffer.getNumChannels(); --i >= 0;)
+				outputBuffer.addSample(i, startSample, adsr.getNextSample() * Sample);
 
-				modulo += inc;
-				++startSample;
-			}
+			modulo += inc;
+				
+			++startSample;
 		}
 	}
 

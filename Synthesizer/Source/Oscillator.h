@@ -6,7 +6,8 @@
 
 
 class Oscillator : public Component,
-                   public ComboBox::Listener
+                   public ComboBox::Listener,
+                   public Slider::Listener
 {
 public:
     Oscillator(SynthesizerAudioProcessor&);
@@ -18,7 +19,13 @@ public:
 private:
     ComboBox oscMenu;
     ComboBox::Listener* boxState;
+
+    Slider deltaFreq;
+    Slider::Listener* slider;
+    
     void comboBoxChanged(ComboBox* boxState) override;
+
+    void sliderValueChanged(Slider* slider) override;
 
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.

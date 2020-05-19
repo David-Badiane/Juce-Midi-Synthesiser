@@ -33,24 +33,20 @@ public:
 	}
 
 private :
-	
-	template <typename FloatType>
 
-	void processBlock(AudioBuffer<FloatType>& outputBuffer, int startSample, int numSamples) 
+	void processBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) 
 	{
 	
 		while (--numSamples >= 0)
 		{
-			auto currentSample = (float)(std::sin(currentAngle) * level);
+			auto Sample = (float)(std::sin(currentAngle) * level);
 
 			for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
-				outputBuffer.addSample(i, startSample, adsr.getNextSample() * currentSample);
+				outputBuffer.addSample(i, startSample, adsr.getNextSample() * Sample);
 
 			currentAngle += angleDelta;
 			++startSample;
 		}
-	
-	
 	}
 
 	double currentAngle, angleDelta, level;
