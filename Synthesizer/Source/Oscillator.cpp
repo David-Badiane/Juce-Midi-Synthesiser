@@ -12,13 +12,15 @@ Oscillator::Oscillator(SynthesizerAudioProcessor& p) :
     oscMenu.addItem("Saw Wave", 2);
     oscMenu.addItem("Square Wave", 3);
     oscMenu.addItem("Triangle Wave", 4);
+    oscMenu.addItem("BleepSaw Wave", 5);
+    oscMenu.addItem("BleepSquare Wave", 6);
+    oscMenu.addItem("BleepTriangle Wave", 7);
+    oscMenu.addItem("White Noise + Sin Wave", 8);
     oscMenu.setJustificationType(Justification::centred);
     addAndMakeVisible(&oscMenu);
     
     oscMenu.setSelectedId(1);
     oscMenu.addListener(this);
-
-    waveSelection = new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "wavetype", oscMenu);
 }
 
 Oscillator::~Oscillator()
@@ -49,6 +51,6 @@ void Oscillator::resized()
 
 void Oscillator::comboBoxChanged(ComboBox* boxThatChanged)
 {
-    processor.box_selected = boxThatChanged->getSelectedId();
+    processor.oscBoxSelected = boxThatChanged->getSelectedId();
     processor.initialiseSynth();
 }

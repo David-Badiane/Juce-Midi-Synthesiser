@@ -23,13 +23,10 @@ private:
     Slider decaySlider;
     Slider releaseSlider;
 
-   // void sliderValueChanged(Slider* slider) override;
-
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> attackVal;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> decayVal;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> sustainVal;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> releaseVal;
-
 
     // This reference is provided as a quick way for your editor
     // to access the processor object that created it 

@@ -7,7 +7,8 @@
 //==============================================================================
 /*
 */
-class Filter : public Component
+class Filter : public Component,
+                      public Slider::Listener
 {
 public:
     Filter(SynthesizerAudioProcessor&);
@@ -20,12 +21,15 @@ private:
     Slider filterCutoff;
     Slider filterRes;
 
+    Slider::Listener* slider;
+
     ComboBox filterMenu;
     ComboBox filterKind;
 
+    void sliderValueChanged(Slider *slider) override;
+
     ScopedPointer<AudioProcessorValueTreeState::ComboBoxAttachment> filterKindVal;
     ScopedPointer<AudioProcessorValueTreeState::ComboBoxAttachment> filterTypeVal;
-    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> filterVal;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> resVal;
 
     // This reference is provided as a quick way for your editor to

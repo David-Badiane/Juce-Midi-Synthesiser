@@ -34,7 +34,6 @@ void SynthesizerAudioProcessorEditor::resized()
     oscGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     filterGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     envGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
-
 }
 
 

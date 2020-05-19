@@ -20,8 +20,6 @@ private:
     ComboBox::Listener* boxState;
     void comboBoxChanged(ComboBox* boxState) override;
 
-    ScopedPointer<AudioProcessorValueTreeState::ComboBoxAttachment> waveSelection;
-
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     SynthesizerAudioProcessor& processor;

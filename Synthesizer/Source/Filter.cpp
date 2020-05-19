@@ -22,11 +22,11 @@ Filter::Filter(SynthesizerAudioProcessor& p) :
     addAndMakeVisible(&filterKind);
    
     filterCutoff.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    filterCutoff.setRange(20.0, 4000.0);
+    filterCutoff.setRange(20.0, 10000.0);
     filterCutoff.setValue(400.0);
     filterCutoff.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-    filterCutoff.setSkewFactorFromMidPoint(500.0); // gives logarithmic fashion
     filterCutoff.setPopupDisplayEnabled(true, true, this);
+    filterCutoff.setSkewFactorFromMidPoint(400);
     addAndMakeVisible(&filterCutoff);
 
     filterRes.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
@@ -36,9 +36,10 @@ Filter::Filter(SynthesizerAudioProcessor& p) :
     filterRes.setPopupDisplayEnabled(true, true, this);
     addAndMakeVisible(&filterRes);
 
+    filterCutoff.addListener(this);
+
     filterTypeVal = new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "filterType", filterMenu);
     filterKindVal = new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "filterKind", filterKind);
-    filterVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "filterCutoff", filterCutoff);
     resVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "filterRes", filterRes);
 }
 
@@ -69,4 +70,9 @@ void Filter::resized()
     filterKind.setBounds(area.removeFromTop(40));
     filterCutoff.setBounds(30, 100, 70, 70);
     filterRes.setBounds(100, 100, 70, 70);
+}
+
+void Filter::sliderValueChanged(Slider* slider)
+{
+    processor.cutoff = filterCutoff.getValue();
 }

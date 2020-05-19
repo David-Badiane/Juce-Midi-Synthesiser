@@ -1,8 +1,15 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "SynthVoice.h"
-#include "SynthSound.h"
+#include "SineWave.h"
+#include "SawWave.h"
+#include "SquareWave.h"
+#include "TriangleWave.h"
+#include "BleepSawWave.h"
+#include "BleepSquareWave.h"
+#include "BleepTriangleWave.h"
+#include "WhiteNoiseWave.h"
+
 
 //==============================================================================
 
@@ -49,15 +56,25 @@ public:
     void updateFilter();
     void process(dsp::ProcessContextReplacing<float> context);
 
-    int box_selected;
+    int oscBoxSelected;
     const int numVoices = 3;
 
     void initialiseSynth();
-
+    double cutoff;
 
 private:
     Synthesiser mySynth;
-    SynthVoice* myVoice;
+
+    SineWaveVoice* mySine;
+    SquareWaveVoice* mySquare;
+    SawWaveVoice* mySaw;
+    TriangleWaveVoice* myTriangle;
+    
+    BleepSquareWaveVoice* myBleepSquare;
+    BleepSawWaveVoice* myBleepSaw;
+    BleepTriangleWaveVoice* myBleepTriangle;
+    WhiteNoiseWaveVoice* myWhiteNoise;
+
 
     // this is a processor duplicator of the filter, not a filter, we got The Filter itself and the Parameters inside the State Variable filter, pointers
     dsp::ProcessorDuplicator<dsp::StateVariableFilter::Filter <float>, dsp::StateVariableFilter::Parameters <float>> stateVariableFilter;
