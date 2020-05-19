@@ -1,9 +1,7 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-#include "OSCSineWave.h"
-#include "OSCSawWave.h"
-#include "OSCSquareWave.h"
-#include "OSCTriangleWave.h"
+
+
 
 
 //==============================================================================
@@ -19,14 +17,12 @@ SynthesizerAudioProcessor::SynthesizerAudioProcessor()
 #endif
         ),
     tree(*this, nullptr, "PARAMETERS",
-        { std::make_unique<AudioParameterFloat>("attack", "Attack", NormalisableRange<float>(0.1f, 5000.0f), 0.1f),
-            std::make_unique<AudioParameterFloat>("decay", "Decay", NormalisableRange<float>(1.0f, 2000.0f), 1.0f),
+        { std::make_unique<AudioParameterFloat>("attack", "Attack", NormalisableRange<float>(0.1f, 5.0f), 0.8f),
+            std::make_unique<AudioParameterFloat>("decay", "Decay", NormalisableRange<float>(1.0f, 2.0f), 1.0f),
             std::make_unique<AudioParameterFloat>("sustain", "Sustain", NormalisableRange<float>(0.0f, 1.0f), 0.8f),
-            std::make_unique<AudioParameterFloat>("release", "Release", NormalisableRange<float>(0.1f, 5000.0f), 0.1f),
-            std::make_unique<AudioParameterFloat>("wavetype", "Wavetype", NormalisableRange<float>(0.0f, 3.0f), 0.0f),
+            std::make_unique<AudioParameterFloat>("release", "Release", NormalisableRange<float>(0.0001f, 8.0f), 0.01f),
             std::make_unique<AudioParameterFloat>("filterType", "FilterType", NormalisableRange<float>(0.0f, 2.0f), 0.0f),
             std::make_unique<AudioParameterFloat>("filterKind", "FilterKind", NormalisableRange<float>(0.0f, 2.0f), 0.0f),
-            std::make_unique<AudioParameterFloat>("filterCutoff", "FilterCutoff", NormalisableRange<float>(20.0f, 10000.0f), 400.0f),
             std::make_unique<AudioParameterFloat>("filterRes", "FilterRes", NormalisableRange<float>(1.0f, 5.0f), 1.0f),
             std::make_unique<AudioParameterFloat>("blend", "Osc2Blend", NormalisableRange<float>(0.0f, 1.0f), 0.0f),
             std::make_unique<AudioParameterFloat>("mastergain", "MasterGain", NormalisableRange<float>(0.0f, 1.0f), 1.0f),
@@ -39,7 +35,8 @@ SynthesizerAudioProcessor::SynthesizerAudioProcessor()
     //=======================================================================
     //initialisation
 {   
-    box_selected = 1;
+    cutoff = 400.0;
+    oscBoxSelected = 1;
     initialiseSynth();
 }
 
@@ -55,7 +52,7 @@ void SynthesizerAudioProcessor::initialiseSynth()
     mySynth.clearVoices();
     mySynth.clearSounds();
 
-    switch (box_selected)
+    switch (oscBoxSelected)
     {
     case 1:
         for (int i = numVoices; --i >= 0;) {
@@ -190,7 +187,6 @@ void SynthesizerAudioProcessor::releaseResources()
 void SynthesizerAudioProcessor::updateFilter()
 {
     int menuChoice = *tree.getRawParameterValue("filterType");
-    int cutoff = *tree.getRawParameterValue("filterCutoff");
     int res = *tree.getRawParameterValue("filterRes");
 
     if (menuChoice == 0)
@@ -257,9 +253,55 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
 {
     int filterKind = *tree.getRawParameterValue("filterKind");
 
-    ScopedNoDenormals noDenormals;
-    //const int totalNumInputChannels  = getTotalNumInputChannels();
-    //const int totalNumOutputChannels = getTotalNumOutputChannels();
+    float* attack = (float*)tree.getRawParameterValue("attack");
+    float* release = (float*)tree.getRawParameterValue("release");
+    float* sustain = (float*)tree.getRawParameterValue("sustain");
+    float* decay = (float*)tree.getRawParameterValue("decay");
+
+    for (int i = 0; i < mySynth.getNumVoices(); i++)
+    {
+        switch (oscBoxSelected)
+        {
+        case 1:
+            if ((mySine = dynamic_cast<SineWaveVoice*>(mySynth.getVoice(i))))
+            {
+
+                mySine->setADSRSampleRate(lastSampleRate);
+                mySine->setADSRParameters(attack, release, sustain, decay);
+            }
+            break;
+
+        case 2:
+            if ((mySaw = dynamic_cast<SawWaveVoice*>(mySynth.getVoice(i))))
+            {
+
+                mySaw->setADSRSampleRate(lastSampleRate);
+                mySaw->setADSRParameters(attack, release, sustain, decay);
+            }
+            break;
+
+        case 3:
+            if ((mySquare = dynamic_cast<SquareWaveVoice*>(mySynth.getVoice(i))))
+            {
+
+                mySquare->setADSRSampleRate(lastSampleRate);
+                mySquare->setADSRParameters(attack, release, sustain, decay);
+            }
+            break;
+
+        case 4:
+            if ((myTriangle = dynamic_cast<TriangleWaveVoice*>(mySynth.getVoice(i))))
+            {
+
+                myTriangle->setADSRSampleRate(lastSampleRate);
+                myTriangle->setADSRParameters(attack, release, sustain, decay);
+            }
+
+            break;
+        }
+
+    }
+
 
     buffer.clear();
 

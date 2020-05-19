@@ -7,7 +7,6 @@ SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudi
     :AudioProcessorEditor(&p), processor(p), oscGui(p), envGui(p), filterGui(p)
 {
     setSize(1000, 200);
-    setResizable(true, true);
 
     addAndMakeVisible(&oscGui);
     addAndMakeVisible(&envGui);
@@ -34,7 +33,6 @@ void SynthesizerAudioProcessorEditor::resized()
     oscGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     filterGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     envGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
-
 }
 
 

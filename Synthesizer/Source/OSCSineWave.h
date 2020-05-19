@@ -1,8 +1,6 @@
 #ifndef SINEWAVE_H
 #define SINEWAVE_H
 
-#include "PluginProcessor.h"
-#include "PluginEditor.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 
 
@@ -25,34 +23,42 @@ public:
 	{
 	}
 
-	bool canPlaySound(SynthesiserSound* sound) override 
-	{ 
+	bool canPlaySound(SynthesiserSound* sound) override
+	{
 		return dynamic_cast<SineWaveSound*> (sound) != nullptr;
-	}																	
-																		
+	}
+	void setADSRSampleRate(double sampleRate)
+	{
+		adsr.setSampleRate(sampleRate);
+	}
+
+	void setADSRParameters(float* att,
+		float* dec,
+		float* sus,
+		float* rel)
+	{
+		adsrParameters.attack = *att;
+		adsrParameters.decay  = *dec;
+		adsrParameters.sustain = *sus;
+		adsrParameters.release = *rel ;
+	}
+
+
+
 	void startNote(int midiNoteNumber,float velocity, SynthesiserSound*, int) override 
 	{
+		adsr.noteOn();
 		currentAngle = 0.0;
-		level = velocity * 0.8;
+		level = velocity * 0.3;
 		tailOff = 0.0;
 		double cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 		double cyclesPerSample = cyclesPerSecond / getSampleRate();
-
 		angleDelta = cyclesPerSample * 2.0 * double_Pi;
 	}
 
 	void stopNote(float velocity, bool allowTailOff) override 
 	{
-		if (allowTailOff)
-		{
-			if (tailOff == 0.0)
-				tailOff = 1.0;
-		}
-		else
-		{
-			clearCurrentNote();
-			angleDelta = 0.0;
-		}
+		adsr.noteOff();
 	}
 
 	void pitchWheelMoved(int /*newValue*/) override
@@ -67,6 +73,7 @@ public:
 
 	void renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override
 	{
+		adsr.setParameters(adsrParameters);
 		processBlock(outputBuffer, startSample, numSamples);
 	}
 
@@ -76,48 +83,23 @@ private:
 	template <typename FloatType>
 	void processBlock(AudioBuffer<FloatType>& outputBuffer, int startSample, int numSamples)
 	{
-		if (angleDelta != 0.0)
+		
+		while (--numSamples >= 0) 
 		{
-			if (tailOff > 0.0) 
-			{
-				while (--numSamples >= 0)
-				{
-					auto currentSample = (float)(std::sin(currentAngle) * level * tailOff);
+			auto currentSample = (float)(std::sin(currentAngle) * level);
 
-					for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
-						outputBuffer.addSample(i, startSample, currentSample);
+			for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
+				outputBuffer.addSample(i, startSample, adsr.getNextSample() * currentSample);
 
-					currentAngle += angleDelta;
-					++startSample;
-
-					tailOff *= 0.99;
-
-					if (tailOff <= 0.005)
-					{
-						clearCurrentNote(); 
-
-						angleDelta = 0.0;
-						break;
-					}
-				}
-			}
-			else
-			{
-				while (--numSamples >= 0) 
-				{
-					auto currentSample = (float)(std::sin(currentAngle) * level);
-
-					for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
-						outputBuffer.addSample(i, startSample, currentSample);
-
-					currentAngle += angleDelta;
-					++startSample;
-				}
-			}
+			currentAngle += angleDelta;
+			++startSample;
 		}
+	
 	}
 
 	double currentAngle, angleDelta, level, tailOff;
+	ADSR adsr;
+	ADSR::Parameters adsrParameters;
 };
 
 #endif 

@@ -1,8 +1,7 @@
 #ifndef TRIANGLEWAVE_H_INCLUDED
 #define TRIANGLEWAVE_H_INCLUDED
 
-#include "PluginProcessor.h"
-#include "PluginEditor.h"
+
 #include "../JuceLibraryCode/JuceHeader.h"
 
 
@@ -38,9 +37,27 @@ public:
 		return dynamic_cast<TriangleWaveSound*> (sound) != nullptr;
 	}
 
+	void setADSRSampleRate(double sampleRate)
+	{
+		adsr.setSampleRate(sampleRate);
+	}
+
+	void setADSRParameters(float* att,
+		float* dec,
+		float* sus,
+		float* rel)
+	{
+		adsrParameters.attack = *att;
+		adsrParameters.decay  = *dec;
+		adsrParameters.sustain = *sus;
+		adsrParameters.release = *rel ;
+	}
+
+
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound*, int currentPitchWheelPosition) override
 	{
-		level = velocity * 0.5;
+		adsr.noteOn();
+		level = velocity * 0.3;
 		modulo = 0.0;
 		trigger = 0;
 		tailOff = 0;
@@ -52,16 +69,7 @@ public:
 
 	void stopNote(float velocity, bool allowTailOff) override
 	{
-		if (allowTailOff)
-		{
-			if (tailOff == 0.0)
-				tailOff = 0.5;
-		}
-		else
-		{
-			clearCurrentNote();
-			modulo = 0.0;
-		}
+		adsr.noteOff();
 	}
 
 	void pitchWheelMoved(int) override {}
@@ -69,29 +77,25 @@ public:
 
 	void renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override
 	{
+		adsr.setParameters(adsrParameters);
 		processBlock(outputBuffer, startSample, numSamples);
 	}
 
-	void renderNextBlock(AudioBuffer<double>& outputBuffer, int startSample, int numSamples) override
-	{
-		processBlock(outputBuffer, startSample, numSamples);
-	}
+	
 
 private:
 	template <typename FloatType>
 	void processBlock(AudioBuffer<FloatType>& outputBuffer, int startSample, int numSamples)
 	{
-
-		if (tailOff > 0.0)
+		while (--numSamples >= 0)
 		{
-
 			if (modulo >= 1)
 			{
 				modulo = 0.0;
 				currentState = 2.0 * abs(2.0 * modulo - 1.0) - 1.0;
-				const FloatType currentSample = static_cast<FloatType> (trigger * (currentState * level));
+				const FloatType currentSample = static_cast<FloatType> (currentState * level);
 				for (int i = outputBuffer.getNumChannels(); --i >= 0;) {
-					outputBuffer.addSample(i, startSample, currentSample);
+					outputBuffer.addSample(i, startSample, adsr.getNextSample() * currentSample);
 				}
 
 				modulo += inc;
@@ -100,58 +104,22 @@ private:
 			else
 			{
 				currentState = 2.0 * abs(2.0 * modulo - 1.0) - 1.0;
-				const FloatType currentSample = static_cast<FloatType> (trigger * (currentState * level));
+				const FloatType currentSample = static_cast<FloatType> (currentState * level);
 				for (int i = outputBuffer.getNumChannels(); --i >= 0;) {
-					outputBuffer.addSample(i, startSample, currentSample);
+					outputBuffer.addSample(i, startSample, adsr.getNextSample() * currentSample);
 				}
 
 				modulo += inc;
 				++startSample;
 			}
-
-			tailOff *= 0.99;
-
-			if (tailOff <= 0.005)
-			{
-				clearCurrentNote();
-				trigger = 0;
-				modulo = 0.0;
-			}
-
 		}
-		else
-		{
-			while (--numSamples >= 0)
-			{
-				if (modulo >= 1)
-				{
-					modulo = 0.0;
-					currentState = 2.0 * abs(2.0 * modulo - 1.0) - 1.0;
-					const FloatType currentSample = static_cast<FloatType> (currentState * level);
-					for (int i = outputBuffer.getNumChannels(); --i >= 0;) {
-						outputBuffer.addSample(i, startSample, currentSample);
-					}
-
-					modulo += inc;
-					++startSample;
-				}
-				else
-				{
-					currentState = 2.0 * abs(2.0 * modulo - 1.0) - 1.0;
-					const FloatType currentSample = static_cast<FloatType> (currentState * level);
-					for (int i = outputBuffer.getNumChannels(); --i >= 0;) {
-						outputBuffer.addSample(i, startSample, currentSample);
-					}
-
-					modulo += inc;
-					++startSample;
-				}
-			}
-		}
+	
 	}
 
 	double level, inc, modulo, currentState, tailOff;
 	int trigger;
+	ADSR adsr;
+	ADSR::Parameters adsrParameters;
 };
 
 #endif 

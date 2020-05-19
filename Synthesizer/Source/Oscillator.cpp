@@ -17,8 +17,6 @@ Oscillator::Oscillator(SynthesizerAudioProcessor& p) :
     
     oscMenu.setSelectedId(1);
     oscMenu.addListener(this);
-
-    waveSelection = new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "wavetype", oscMenu);
 }
 
 Oscillator::~Oscillator()
@@ -49,6 +47,6 @@ void Oscillator::resized()
 
 void Oscillator::comboBoxChanged(ComboBox* boxThatChanged)
 {
-    processor.box_selected = boxThatChanged->getSelectedId();
+    processor.oscBoxSelected = boxThatChanged->getSelectedId();
     processor.initialiseSynth();
 }
