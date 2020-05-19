@@ -15,7 +15,7 @@ public:
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound*, int) override {
 
 		adsr.noteOn();
-		level = velocity * 0.25;
+		level = velocity * 0.25 * masterGain;
 		modulo = 0.0;
 	
 		double cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);

@@ -7,7 +7,8 @@
 #include "Filter.h"
 
 
-class SynthesizerAudioProcessorEditor : public AudioProcessorEditor
+class SynthesizerAudioProcessorEditor : public AudioProcessorEditor,
+                                        public Slider::Listener
 {
 public:
     SynthesizerAudioProcessorEditor(SynthesizerAudioProcessor&);
@@ -27,6 +28,10 @@ private:
     Oscillator oscGui;
     Envelope envGui;
     Filter filterGui;
+    Slider masterVol;
+    Slider::Listener* slider;
+    void sliderValueChanged(Slider* slider) override;
+
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthesizerAudioProcessorEditor);

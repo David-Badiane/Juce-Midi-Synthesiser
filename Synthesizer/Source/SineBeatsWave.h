@@ -25,7 +25,7 @@ public:
 			double cyclesPerSample = frequency / getSampleRate();
 			angleDelta[i] = cyclesPerSample * 2.0 * double_Pi;
 		}
-		level = velocity * 0.15;
+		level = velocity * 0.15 * masterGain;
 	}
 
 	void update_beats(double deltaFreqParam)

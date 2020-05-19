@@ -17,7 +17,7 @@ public:
 
 		adsr.noteOn();
 		currentAngle = 0.0;
-		level = velocity * 0.25;
+		level = velocity * 0.25 * masterGain;
 		double cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 		double cyclesPerSample = cyclesPerSecond / getSampleRate();
 		angleDelta = cyclesPerSample * 2.0 * double_Pi;

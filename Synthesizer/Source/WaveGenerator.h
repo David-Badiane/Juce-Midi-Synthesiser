@@ -24,7 +24,7 @@ public:
 class WaveGeneratorVoice : public SynthesiserVoice
 {
 public:
-	WaveGeneratorVoice() 
+	WaveGeneratorVoice() : masterGain(1)
 	{
 	}
 
@@ -71,6 +71,10 @@ public:
 		// not interested in controllers in this case.
 	}
 
+	void setMasterVolume(double volz) {
+		masterGain = volz;
+	}
+
 	void renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override
 	{
 	}
@@ -82,4 +86,5 @@ protected:
 	
 	ADSR adsr;
 	ADSR::Parameters adsrParameters;
+	double masterGain;
 };

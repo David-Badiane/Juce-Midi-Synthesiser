@@ -36,6 +36,7 @@ SynthesizerAudioProcessor::SynthesizerAudioProcessor()
     //initialisation
 {   
     cutoff = 400.0;
+    masterVolume = 1;
     oscBoxSelected = 1;
     initialiseSynth();
 }
@@ -316,15 +317,30 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
     float* release = (float*)tree.getRawParameterValue("release");
     float* sustain = (float*)tree.getRawParameterValue("sustain");
     float* decay = (float*)tree.getRawParameterValue("decay");
+    
 
     for (int i = 0; i < mySynth.getNumVoices(); i++)
     {
+        mySine                 -> setMasterVolume(masterVolume);
+        mySquare               -> setMasterVolume(masterVolume);
+        mySaw                  -> setMasterVolume(masterVolume);
+        myTriangle             -> setMasterVolume(masterVolume);
+                              
+        myBleepSquare          -> setMasterVolume(masterVolume);
+        myBleepSaw             -> setMasterVolume(masterVolume);
+        myBleepTriangle        -> setMasterVolume(masterVolume);
+        myWhiteNoise           -> setMasterVolume(masterVolume);
+                             
+        mySineBeats            -> setMasterVolume(masterVolume);
+        myRissetBeats          -> setMasterVolume(masterVolume);
+        myOrgan                -> setMasterVolume(masterVolume);
+
         switch (oscBoxSelected)
         {
         case 1:
             if ((mySine = dynamic_cast<SineWaveVoice*>(mySynth.getVoice(i))))
                 mySine->setADSRParameters(attack, release, sustain, decay);
-            
+                
             break;
 
         case 2:

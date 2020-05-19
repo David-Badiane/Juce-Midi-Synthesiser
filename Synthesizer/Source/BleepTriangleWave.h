@@ -16,7 +16,7 @@ public:
 	{
 		adsr.noteOn();
 		lastOutput = 0.0;
-		level = velocity * 0.25;
+		level = velocity * 0.25 * masterGain;
 		modulo = 0.0;
 		currentState = 1.0;
 
