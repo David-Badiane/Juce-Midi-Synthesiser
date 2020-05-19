@@ -5,6 +5,10 @@
   <MAINGROUP id="V2pw9V" name="Synthesizer">
     <GROUP id="{23E6D25F-7439-09A0-401B-8F408E68B913}" name="Source">
       <GROUP id="{978AAFFC-4231-8A42-F4C7-9A7E109765BF}" name="Waves">
+        <FILE id="x8TxBU" name="OrganWave.h" compile="0" resource="0" file="Source/OrganWave.h"/>
+        <FILE id="m0K98m" name="SineBeatsWave.h" compile="0" resource="0" file="Source/SineBeatsWave.h"/>
+        <FILE id="Dhj0lq" name="SineRissetBeatsWave.h" compile="0" resource="0"
+              file="Source/SineRissetBeatsWave.h"/>
         <FILE id="xiQG9O" name="BleepSawWave.h" compile="0" resource="0" file="Source/BleepSawWave.h"/>
         <FILE id="xeqFyZ" name="BleepSquareWave.h" compile="0" resource="0"
               file="Source/BleepSquareWave.h"/>
@@ -18,6 +22,14 @@
         <FILE id="o1TlTs" name="WhiteNoiseWave.h" compile="0" resource="0"
               file="Source/WhiteNoiseWave.h"/>
       </GROUP>
+      <GROUP id="{48890E5B-B2D7-74E0-F75B-9CEBF752079F}" name="UserInterface">
+        <FILE id="RGVlqI" name="Envelope.cpp" compile="1" resource="0" file="Source/Envelope.cpp"/>
+        <FILE id="JmjQ7q" name="Envelope.h" compile="0" resource="0" file="Source/Envelope.h"/>
+        <FILE id="ZYhXsg" name="Oscillator.cpp" compile="1" resource="0" file="Source/Oscillator.cpp"/>
+        <FILE id="UyDAa6" name="Oscillator.h" compile="0" resource="0" file="Source/Oscillator.h"/>
+        <FILE id="zwXeBv" name="Filter.h" compile="0" resource="0" file="Source/Filter.h"/>
+        <FILE id="fB0yT4" name="Filter.cpp" compile="1" resource="0" file="Source/Filter.cpp"/>
+      </GROUP>
       <FILE id="rHoFkV" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="IFv1Rq" name="PluginProcessor.h" compile="0" resource="0"
@@ -25,12 +37,6 @@
       <FILE id="ONxyIf" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="Khnbo1" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
-      <FILE id="RGVlqI" name="Envelope.cpp" compile="1" resource="0" file="Source/Envelope.cpp"/>
-      <FILE id="JmjQ7q" name="Envelope.h" compile="0" resource="0" file="Source/Envelope.h"/>
-      <FILE id="ZYhXsg" name="Oscillator.cpp" compile="1" resource="0" file="Source/Oscillator.cpp"/>
-      <FILE id="UyDAa6" name="Oscillator.h" compile="0" resource="0" file="Source/Oscillator.h"/>
-      <FILE id="zwXeBv" name="Filter.h" compile="0" resource="0" file="Source/Filter.h"/>
-      <FILE id="fB0yT4" name="Filter.cpp" compile="1" resource="0" file="Source/Filter.cpp"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
