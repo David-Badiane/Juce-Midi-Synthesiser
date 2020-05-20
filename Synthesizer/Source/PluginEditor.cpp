@@ -10,12 +10,13 @@ SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudi
     setResizable(true, true);
 
     masterVol.setSliderStyle(Slider::LinearVertical);
-    masterVol.setRange(0.0, 1, 0.01);
+    masterVol.setRange(0.0, 2, 0.01);
     masterVol.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
     masterVol.setPopupDisplayEnabled(true, false, this);
-    masterVol.setTextValueSuffix(" Volume");
+    masterVol.setTextValueSuffix("Master Volume");
     masterVol.setValue(1.0);
 
+    masterVol.addListener(this);
 
     addAndMakeVisible(&masterVol);
     addAndMakeVisible(&oscGui);

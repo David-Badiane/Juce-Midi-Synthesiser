@@ -24,7 +24,7 @@ public:
 			double cyclesPerSample = frequency / getSampleRate();
 			angleDelta[i] = cyclesPerSample * 2.0 * double_Pi;
 		}
-		level = velocity * 0.043 * masterGain;
+		level = velocity * 0.043;
 	}
 
 	void update_beats(double deltaFreqParam)
@@ -57,7 +57,7 @@ private:
 			float Sample = 0;
 
 			for (int i = 0; i < 7; i++)
-				Sample = Sample + (float)(std::sin(currentAngle[i]) * level);
+				Sample = Sample + (float)(std::sin(currentAngle[i]) * level * masterGain);
 			;
 
 			for (auto i = outputBuffer.getNumChannels(); --i >= 0;)

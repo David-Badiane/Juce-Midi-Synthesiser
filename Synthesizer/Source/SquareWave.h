@@ -15,7 +15,7 @@ public:
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound*, int) override {
 
 		adsr.noteOn();
-		level = velocity * 0.25 * masterGain;
+		level = velocity * 0.25;
 		modulo = 0.0;
 		trigger = 0;
 		currentState = 1.0;
@@ -45,7 +45,7 @@ private:
 				currentState *= (-1.0);
 			}
 						
-		    float Sample = (float)(currentState * level);
+		    float Sample = (float)(currentState * level * masterGain);
 		    for (int i = outputBuffer.getNumChannels(); --i >= 0;) {
 		    	outputBuffer.addSample(i, startSample, adsr.getNextSample() * Sample);
 		    }

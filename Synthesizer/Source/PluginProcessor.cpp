@@ -24,10 +24,6 @@ SynthesizerAudioProcessor::SynthesizerAudioProcessor()
             std::make_unique<AudioParameterFloat>("filterType", "FilterType", NormalisableRange<float>(0.0f, 2.0f), 0.0f),
             std::make_unique<AudioParameterFloat>("filterKind", "FilterKind", NormalisableRange<float>(0.0f, 2.0f), 0.0f),
             std::make_unique<AudioParameterFloat>("filterRes", "FilterRes", NormalisableRange<float>(1.0f, 5.0f), 1.0f),
-            std::make_unique<AudioParameterFloat>("blend", "Osc2Blend", NormalisableRange<float>(0.0f, 1.0f), 0.0f),
-            std::make_unique<AudioParameterFloat>("mastergain", "MasterGain", NormalisableRange<float>(0.0f, 1.0f), 1.0f),
-            std::make_unique<AudioParameterFloat>("pbup", "PBup", NormalisableRange<float>(1.0f, 12.0f), 2.0f),
-            std::make_unique<AudioParameterFloat>("pbdown", "PBdown", NormalisableRange<float>(1.0f, 12.0f), 2.0f),
         })
 
 #endif
@@ -36,7 +32,7 @@ SynthesizerAudioProcessor::SynthesizerAudioProcessor()
     //initialisation
 {   
     cutoff = 400.0;
-    masterVolume = 1;
+    masterVolume = 0.3;
     oscBoxSelected = 1;
     initialiseSynth();
 }
@@ -321,68 +317,73 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
 
     for (int i = 0; i < mySynth.getNumVoices(); i++)
     {
-        mySine                 -> setMasterVolume(masterVolume);
-        mySquare               -> setMasterVolume(masterVolume);
-        mySaw                  -> setMasterVolume(masterVolume);
-        myTriangle             -> setMasterVolume(masterVolume);
-                              
-        myBleepSquare          -> setMasterVolume(masterVolume);
-        myBleepSaw             -> setMasterVolume(masterVolume);
-        myBleepTriangle        -> setMasterVolume(masterVolume);
-        myWhiteNoise           -> setMasterVolume(masterVolume);
-                             
-        mySineBeats            -> setMasterVolume(masterVolume);
-        myRissetBeats          -> setMasterVolume(masterVolume);
-        myOrgan                -> setMasterVolume(masterVolume);
-
+    
         switch (oscBoxSelected)
         {
+
         case 1:
             if ((mySine = dynamic_cast<SineWaveVoice*>(mySynth.getVoice(i))))
+            {
                 mySine->setADSRParameters(attack, release, sustain, decay);
-                
+                mySine->setMasterVolume(masterVolume);
+            }
             break;
 
         case 2:
             if ((mySaw = dynamic_cast<SawWaveVoice*>(mySynth.getVoice(i))))
+            {
                 mySaw->setADSRParameters(attack, release, sustain, decay);
-            
+                mySine->setMasterVolume(masterVolume);
+
+            }
             break;
 
         case 3:
             if ((mySquare = dynamic_cast<SquareWaveVoice*>(mySynth.getVoice(i))))
+            {
                 mySquare->setADSRParameters(attack, release, sustain, decay);
-
+                mySquare->setMasterVolume(masterVolume);
+            }
             break;
 
         case 4:
             if ((myTriangle = dynamic_cast<TriangleWaveVoice*>(mySynth.getVoice(i))))
+            {
                 myTriangle->setADSRParameters(attack, release, sustain, decay);
-
+                myTriangle->setMasterVolume(masterVolume);
+            }
             break;
 
         case 5:
             if ((myBleepSaw = dynamic_cast<BleepSawWaveVoice*>(mySynth.getVoice(i))))
+            {
                 myBleepSaw->setADSRParameters(attack, release, sustain, decay);
-
+                myBleepSaw->setMasterVolume(masterVolume);               
+            }
             break;
 
         case 6:
             if ((myBleepSquare = dynamic_cast<BleepSquareWaveVoice*>(mySynth.getVoice(i))))
+            {
                 myBleepSquare->setADSRParameters(attack, release, sustain, decay);
-
+                myBleepSquare->setMasterVolume(masterVolume);
+            }  
             break;
 
         case 7:
             if ((myBleepTriangle = dynamic_cast<BleepTriangleWaveVoice*>(mySynth.getVoice(i))))
+            {
                 myBleepTriangle->setADSRParameters(attack, release, sustain, decay);
-            
+                myBleepTriangle->setMasterVolume(masterVolume);
+            }
             break;
 
         case 8:
             if ((myWhiteNoise = dynamic_cast<WhiteNoiseWaveVoice*>(mySynth.getVoice(i))))
-               myWhiteNoise->setADSRParameters(attack, release, sustain, decay);
-
+            {
+                myWhiteNoise->setADSRParameters(attack, release, sustain, decay);
+                myWhiteNoise->setMasterVolume(masterVolume);
+            }
             break;
 
         case 9:
@@ -390,6 +391,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
             {   
                 mySineBeats->update_beats(deltaFrequency);
                 mySineBeats->setADSRParameters(attack, release, sustain, decay);
+                mySineBeats->setMasterVolume(masterVolume);    
             }
             break;
 
@@ -398,6 +400,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
             {
                 myRissetBeats->update_beats(deltaFrequency);
                 myRissetBeats->setADSRParameters(attack, release, sustain, decay);
+                myRissetBeats->setMasterVolume(masterVolume);
             }
             break;
 
@@ -406,6 +409,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
             {
                 myOrgan->update_beats(deltaFrequency);
                 myOrgan->setADSRParameters(attack, release, sustain, decay);
+                myOrgan->setMasterVolume(masterVolume);
             }
 
             break;

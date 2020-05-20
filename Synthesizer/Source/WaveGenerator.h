@@ -79,12 +79,12 @@ public:
 	{
 	}
 		
-
+	double masterGain;
 
 
 protected:
-	
+
 	ADSR adsr;
 	ADSR::Parameters adsrParameters;
-	double masterGain;
+	
 };

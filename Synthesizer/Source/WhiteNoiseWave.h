@@ -15,7 +15,7 @@ public:
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound*, int) override {
 
 		adsr.noteOn();
-		level = velocity * 0.15 * masterGain;
+		level = velocity * 0.15 ;
 		currentAngle = 0.0;
 
 		double cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
@@ -36,7 +36,7 @@ private:
 	{
 		while (--numSamples >= 0)
 		{
-			const float Sample = static_cast<float> (((rnumber.nextFloat() ) - 1.0 + std::sin(currentAngle)) * level);
+			const float Sample = static_cast<float> (((rnumber.nextFloat() ) - 1.0 + std::sin(currentAngle)) * level * masterGain);
 			for (int i = outputBuffer.getNumChannels(); --i >= 0;) {
 				outputBuffer.addSample(i, startSample, adsr.getNextSample() * Sample);
 			}

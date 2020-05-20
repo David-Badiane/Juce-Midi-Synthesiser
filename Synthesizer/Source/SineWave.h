@@ -17,7 +17,7 @@ public:
 
 		adsr.noteOn();
 		currentAngle = 0.0;
-		level = velocity * 0.25 * masterGain;
+		level = velocity * 0.25 ;
 		double cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 		double cyclesPerSample = cyclesPerSecond / getSampleRate();
 		angleDelta = cyclesPerSample * 2.0 * double_Pi;
@@ -39,7 +39,7 @@ private :
 	
 		while (--numSamples >= 0)
 		{
-			auto Sample = (float)(std::sin(currentAngle) * level);
+			auto Sample = (float)(std::sin(currentAngle) * level * masterGain);
 
 			for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
 				outputBuffer.addSample(i, startSample, adsr.getNextSample() * Sample);
