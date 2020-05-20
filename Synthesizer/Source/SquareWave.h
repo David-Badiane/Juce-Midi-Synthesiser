@@ -45,7 +45,7 @@ private:
 				currentState *= (-1.0);
 			}
 						
-		    float Sample = (float)(currentState * level);
+		    float Sample = (float)(currentState * level * masterGain);
 		    for (int i = outputBuffer.getNumChannels(); --i >= 0;) {
 		    	outputBuffer.addSample(i, startSample, adsr.getNextSample() * Sample);
 		    }

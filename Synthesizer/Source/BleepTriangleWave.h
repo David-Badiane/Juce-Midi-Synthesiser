@@ -16,7 +16,7 @@ public:
 	{
 		adsr.noteOn();
 		lastOutput = 0.0;
-		level = velocity * 0.25;
+		level = velocity * 0.25 ;
 		modulo = 0.0;
 		currentState = 1.0;
 
@@ -70,7 +70,7 @@ private:
 				currentState -= polyBlep(fmod(modulo + 0.5, 1.0));
 				currentState = angleDelta * currentState + (1 - angleDelta) * lastOutput;
 				lastOutput = currentState;
-				float Sample = (float)(currentState);
+				float Sample = (float)(currentState * masterGain);
 
 				for (int i = outputBuffer.getNumChannels(); --i >= 0;)
 					outputBuffer.addSample(i, startSample, adsr.getNextSample() * Sample);

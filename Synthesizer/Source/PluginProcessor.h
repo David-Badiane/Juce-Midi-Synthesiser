@@ -65,6 +65,7 @@ public:
 
     void initialiseSynth();
     double cutoff;
+    double masterVolume;
 
 private:
     Synthesiser mySynth;

@@ -15,7 +15,7 @@ public:
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound*, int) override {
 
 		adsr.noteOn();
-		level = velocity * 0.25;
+		level = velocity * 0.25 ;
 		modulo = 0.0;
 		double cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 		inc = cyclesPerSecond / getSampleRate();
@@ -37,7 +37,7 @@ private:
 			if (modulo >= 1.0)
 				modulo -= 1.0;
 
-			float Sample = static_cast<float> (modulo * 2.0 - 1.0) * level;
+			float Sample = static_cast<float> (modulo * 2.0 - 1.0) * level * masterGain;
 
 			for (int i = outputBuffer.getNumChannels(); --i >= 0;)
 					outputBuffer.addSample(i, startSample, adsr.getNextSample() * Sample);

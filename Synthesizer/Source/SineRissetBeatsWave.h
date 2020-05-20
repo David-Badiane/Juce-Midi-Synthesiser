@@ -57,7 +57,7 @@ private:
 			float Sample = 0;
 
 			for (int i = 0; i < 7; i++)
-				Sample = Sample + (float)(std::sin(currentAngle[i]) * level);
+				Sample = Sample + (float)(std::sin(currentAngle[i]) * level * masterGain);
 			;
 
 			for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
