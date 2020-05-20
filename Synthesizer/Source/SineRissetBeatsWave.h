@@ -9,7 +9,8 @@ class SineRissetBeatsWaveSound : public WaveGeneratorSound {
 class SineRissetBeatsWaveVoice : public WaveGeneratorVoice {
 
 public:
-	SineRissetBeatsWaveVoice() : currentAngle{ 0,0,0,0,0,0,0 }, angleDelta{ 0, 0,0,0,0,0,0 }, 
+	SineRissetBeatsWaveVoice() : currentAngle{ 0,0,0,0,0,0,0,0 }, angleDelta{ 0, 0,0,0,0,0,0,0 }, 
+		                         currentAngle2{ 0,0,0,0,0,0,0,0 }, angleDelta2{ 0, 0,0,0,0,0,0,0 },
 								 level(0), noteFrequency(0), deltaFreq(0) 
 								 {}
 
@@ -17,7 +18,7 @@ public:
 	{
 		adsr.noteOn();
 		noteFrequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-		for (int i = 0; i < 7; i++)
+		for (int i = 0; i < 8; i++)
 		{
 			currentAngle[i] = 0;
 			double frequency = noteFrequency + i * deltaFreq;
@@ -30,9 +31,17 @@ public:
 	void update_beats(double deltaFreqParam)
 	{
 		deltaFreq = deltaFreqParam/4;
-		for (int i = 0; i < 7; i++)
+		for (int i = 0; i < 8; i++)
 		{
 			double frequency = noteFrequency + i * deltaFreq;
+			double cyclesPerSample = frequency / getSampleRate();
+			angleDelta[i] = cyclesPerSample * 2.0 * double_Pi;
+		}
+
+		deltaFreq = deltaFreqParam / 4;
+		for (int i = 0; i < 8; i++)
+		{
+			double frequency = noteFrequency + i * 0.99* deltaFreq;
 			double cyclesPerSample = frequency / getSampleRate();
 			angleDelta[i] = cyclesPerSample * 2.0 * double_Pi;
 		}
@@ -54,22 +63,26 @@ private:
 
 		while (--numSamples >= 0)
 		{
-			float Sample = 0;
+			float Sample1 = 0;
+			float Sample2 = 0;
+			for (int i = 0; i < 8; i++)
+			{
+				Sample1 = Sample1 + (float)(std::sin(currentAngle[i]) * level * masterGain);
+				Sample2 = Sample2 + (float)(std::sin(currentAngle2[i]) * level * masterGain);
+			}
 
-			for (int i = 0; i < 7; i++)
-				Sample = Sample + (float)(std::sin(currentAngle[i]) * level * masterGain);
-			;
+				outputBuffer.addSample(0, startSample, adsr.getNextSample() * Sample1);
+				outputBuffer.addSample(1, startSample, adsr.getNextSample() * Sample2);
 
-			for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
-				outputBuffer.addSample(i, startSample, adsr.getNextSample() * Sample);
-
-			for (int i = 0; i < 7; i++)
+			for (int i = 0; i < 8; i++)
+			{
 				currentAngle[i] += angleDelta[i];
-
+				currentAngle2[i] += angleDelta[i];
+			}
 			++startSample;
 
 		}
 	}
 
-	double currentAngle[7], angleDelta[7], level, deltaFreq, noteFrequency;
+	double currentAngle[8], angleDelta[8], level, deltaFreq, noteFrequency, currentAngle2[8], angleDelta2[8];
 };

@@ -24,6 +24,7 @@ SynthesizerAudioProcessor::SynthesizerAudioProcessor()
             std::make_unique<AudioParameterFloat>("filterType", "FilterType", NormalisableRange<float>(0.0f, 2.0f), 0.0f),
             std::make_unique<AudioParameterFloat>("filterKind", "FilterKind", NormalisableRange<float>(0.0f, 2.0f), 0.0f),
             std::make_unique<AudioParameterFloat>("filterRes", "FilterRes", NormalisableRange<float>(1.0f, 5.0f), 1.0f),
+
         })
 
 #endif
@@ -31,11 +32,15 @@ SynthesizerAudioProcessor::SynthesizerAudioProcessor()
     //=======================================================================
     //initialisation
 {   
+    keyboardState.addListener(this);
     cutoff = 400.0;
     masterVolume = 0.3;
     oscBoxSelected = 1;
     initialiseSynth();
 }
+
+
+
 
 SynthesizerAudioProcessor::~SynthesizerAudioProcessor()
 {
@@ -43,6 +48,23 @@ SynthesizerAudioProcessor::~SynthesizerAudioProcessor()
 
 //==============================================================================
 
+void  SynthesizerAudioProcessor::handleIncomingMidiMessage(MidiInput* source, const MidiMessage& message)
+{
+    const ScopedValueSetter<bool> scopedInputFlag(isAddingFromMidiInput, true);
+    keyboardState.processNextMidiEvent(message);
+}
+
+void SynthesizerAudioProcessor::handleNoteOn(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity)
+{
+    
+    mySynth.noteOn( midiChannel, midiNoteNumber, velocity);
+    
+}
+
+void SynthesizerAudioProcessor::handleNoteOff(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity)
+{
+    mySynth.noteOff(midiChannel, midiNoteNumber, velocity,true);
+}
 
 void SynthesizerAudioProcessor::initialiseSynth()
 {

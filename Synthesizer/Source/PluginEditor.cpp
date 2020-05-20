@@ -4,9 +4,10 @@
 
 //==============================================================================
 SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudioProcessor& p)
-    :AudioProcessorEditor(&p), processor(p), oscGui(p), envGui(p), filterGui(p)
+    :AudioProcessorEditor(&p), processor(p), oscGui(p), envGui(p), filterGui(p),
+    keyboardComponent(p.keyboardState, MidiKeyboardComponent::horizontalKeyboard)
 {
-    setSize(1000, 200);
+    setSize(700, 300);
     setResizable(true, true);
 
     masterVol.setSliderStyle(Slider::LinearVertical);
@@ -22,6 +23,9 @@ SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudi
     addAndMakeVisible(&oscGui);
     addAndMakeVisible(&envGui);
     addAndMakeVisible(&filterGui);
+
+
+    addAndMakeVisible(keyboardComponent);
 
 }
 
@@ -42,10 +46,13 @@ void SynthesizerAudioProcessorEditor::resized()
     const int componentWidth = 200;
     const int componentHeight = 200;
 
+    keyboardComponent.setBounds(area.removeFromBottom(componentHeight/2));
     oscGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     filterGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     envGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     masterVol.setBounds(area.removeFromLeft(componentWidth / 3).removeFromBottom(componentHeight - 30).removeFromTop(componentHeight - 50));
+
+    
 }
 
 

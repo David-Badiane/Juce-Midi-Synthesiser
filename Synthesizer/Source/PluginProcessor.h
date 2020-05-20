@@ -16,7 +16,8 @@
 
 //==============================================================================
 
-class SynthesizerAudioProcessor : public AudioProcessor
+class SynthesizerAudioProcessor : public AudioProcessor,
+                                  public MidiKeyboardStateListener
 {
 public:
     //==============================================================================
@@ -66,6 +67,8 @@ public:
     void initialiseSynth();
     double cutoff;
     double masterVolume;
+    MidiKeyboardState keyboardState;
+
 
 private:
     Synthesiser mySynth;
@@ -83,6 +86,15 @@ private:
     SineBeatsWaveVoice* mySineBeats;
     SineRissetBeatsWaveVoice* myRissetBeats;
     OrganWaveVoice* myOrgan;
+
+    void handleNoteOff(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override;
+    void handleNoteOn(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override;
+    void handleIncomingMidiMessage(MidiInput* source, const MidiMessage& message);
+
+    void setMidiInput(int index);
+    int lastInputIndex;
+    bool isAddingFromMidiInput;
+
 
 
     // this is a processor duplicator of the filter, not a filter, we got The Filter itself and the Parameters inside the State Variable filter, pointers

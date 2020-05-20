@@ -33,7 +33,21 @@ private:
     Slider::Listener* slider;
     void sliderValueChanged(Slider* slider) override;
 
+    
+    MidiKeyboardComponent keyboardComponent;    
+    TextEditor midiMessagesBox;
+    MidiKeyboardState keyboardState;
+
+  
+    double startTime;
 
 
+    
+    /*
+    void handleIncomingMidiMessage(MidiInput* source, const MidiMessage& message);
+
+    void addMessageToList(const MidiMessage& message, const String& source);
+    void postMessageToList(const MidiMessage& message, const String& source);
+    */
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthesizerAudioProcessorEditor);
 };
