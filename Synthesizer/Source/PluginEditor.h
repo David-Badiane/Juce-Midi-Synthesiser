@@ -17,6 +17,9 @@ public:
     //==============================================================================
     void paint(Graphics&) override;
     void resized() override;
+    //void timerCallback() override;
+
+    float steps = 0.0f;
 
 
 
@@ -40,9 +43,13 @@ private:
     MidiKeyboardComponent keyboardComponent;    
     TextEditor midiMessagesBox;
     MidiKeyboardState keyboardState;
+    
+    double lfoFreq = 20;
 
+    Timer* timerPointer;
   
     double startTime;
+    
 
 
     

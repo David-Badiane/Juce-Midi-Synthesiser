@@ -10,6 +10,7 @@ SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudi
     setSize(900, 300);
     setResizable(true, true);
 
+    
     masterVol.setSliderStyle(Slider::LinearVertical);
     masterVol.setRange(0.0, 2, 0.01);
     masterVol.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
@@ -58,10 +59,19 @@ SynthesizerAudioProcessorEditor::~SynthesizerAudioProcessorEditor()
 {
 }
 
+
+
+
+
 //==============================================================================
 void SynthesizerAudioProcessorEditor::paint(Graphics& g)
 {
-    g.fillAll(Colours::black);
+    auto baseColour = Colours::black;
+    juce::Rectangle<float> area = getLocalBounds().toFloat();
+    g.fillAll(baseColour.contrasting(((float)std::sin(lfoFreq / 1000 * steps) + (float)1.6) / (float)16));
+    steps++;
+    repaint();
+   
 }
 
 void SynthesizerAudioProcessorEditor::resized()
@@ -85,6 +95,8 @@ void SynthesizerAudioProcessorEditor::resized()
     modWheel.setColour(modWheel.thumbColourId, Colours::darkgoldenrod);
     modWheel.onDragStart = [this] { modWheel.setColour(modWheel.thumbColourId, Colours::darkolivegreen); };
     modWheel.onDragEnd = [this] { modWheel.setColour(modWheel.thumbColourId, Colours::darkgoldenrod);};
+
+    bendExtension.setColour(bendExtension.thumbColourId, Colours::limegreen);
 
     bendExtension.setBounds(area.removeFromLeft(componentWidth / 9).removeFromBottom(componentHeight / 2).removeFromTop(componentHeight - 50));
     pitchWheel.setBounds(area.removeFromLeft(componentWidth / 9).removeFromBottom(componentHeight / 2).removeFromTop(componentHeight - 50));
