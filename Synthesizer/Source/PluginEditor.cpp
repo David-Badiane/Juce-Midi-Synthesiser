@@ -66,9 +66,9 @@ SynthesizerAudioProcessorEditor::~SynthesizerAudioProcessorEditor()
 //==============================================================================
 void SynthesizerAudioProcessorEditor::paint(Graphics& g)
 {
-    auto baseColour = Colours::black;
+    auto baseColour = Colour(0x282C34);
     juce::Rectangle<float> area = getLocalBounds().toFloat();
-    g.fillAll(baseColour.contrasting(((float)std::sin(lfoFreq / 1000 * steps) + (float)1.6) / (float)16));
+    g.fillAll(baseColour.contrasting(((float)std::sin(lfoFreq / 1000 * steps) + (float)1.8) / (float)20));
     steps++;
     repaint();
    

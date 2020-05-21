@@ -32,5 +32,6 @@ private:
     // to access the processor object that created it 
     SynthesizerAudioProcessor& processor;
 
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Envelope)
 };
