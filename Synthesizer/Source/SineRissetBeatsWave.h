@@ -11,13 +11,13 @@ class SineRissetBeatsWaveVoice : public WaveGeneratorVoice {
 public:
 	SineRissetBeatsWaveVoice() : currentAngle{ 0,0,0,0,0,0,0,0 }, angleDelta{ 0, 0,0,0,0,0,0,0 }, 
 		                         currentAngle2{ 0,0,0,0,0,0,0,0 }, angleDelta2{ 0, 0,0,0,0,0,0,0 },
-								 level(0), noteFrequency(0), deltaFreq(0) 
+								 level(0), deltaFreq(0) 
 								 {}
 
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound*, int) override
 	{
 		adsr.noteOn();
-		noteFrequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
 		for (int i = 0; i < 8; i++)
 		{
 			currentAngle[i] = 0;
@@ -26,6 +26,16 @@ public:
 			angleDelta[i] = cyclesPerSample * 2.0 * double_Pi;
 		}
 		level = velocity * 0.043;
+	}
+
+	void recalculatePitch() {
+		double freq = noteFrequency * std::pow(2.0, pitchBendCents() / 1200);
+		for (int i = 0; i < 8; i++)
+		{
+			double frequency = freq + i * deltaFreq;
+			double cyclesPerSample = frequency / getSampleRate();
+			angleDelta[i] = cyclesPerSample * 2.0 * double_Pi;
+		}
 	}
 
 	void update_beats(double deltaFreqParam)
@@ -84,5 +94,5 @@ private:
 		}
 	}
 
-	double currentAngle[8], angleDelta[8], level, deltaFreq, noteFrequency, currentAngle2[8], angleDelta2[8];
+	double currentAngle[8], angleDelta[8], level, deltaFreq, currentAngle2[8], angleDelta2[8];
 };

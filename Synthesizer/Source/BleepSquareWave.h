@@ -18,8 +18,8 @@ public:
 		level = velocity * 0.25 ;
 		modulo = 0.0;
 	
-		double cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-		inc = cyclesPerSecond / getSampleRate();
+		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
+		inc = noteFrequency / getSampleRate();
 	}
 
 	void renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override
@@ -27,6 +27,10 @@ public:
 		adsr.setSampleRate(getSampleRate());
 		adsr.setParameters(adsrParameters);
 		processBlock(outputBuffer, startSample, numSamples);
+	}
+
+	void recalculatePitch() {
+		inc = noteFrequency * std::pow(2.0, pitchBendCents() / 1200) / getSampleRate();
 	}
 
 private:

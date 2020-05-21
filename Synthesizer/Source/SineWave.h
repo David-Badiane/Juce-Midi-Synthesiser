@@ -18,11 +18,18 @@ public:
 		adsr.noteOn();
 		currentAngle = 0.0;
 		level = velocity * 0.25 ;
-		double cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-		double cyclesPerSample = cyclesPerSecond / getSampleRate();
+		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
+		double cyclesPerSample = noteFrequency / getSampleRate();
 		angleDelta = cyclesPerSample * 2.0 * double_Pi;
+		
 	}
 
+
+	void recalculatePitch() {
+		double frequency = noteFrequency * std::pow(2.0, pitchBendCents() / 1200);
+		double cyclesPerSample = frequency / getSampleRate();
+		angleDelta = cyclesPerSample * 2.0 * double_Pi;
+	}
 
 
 	void renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override

@@ -20,8 +20,13 @@ public:
 		modulo = 0.0;
 		currentState = 1.0;
 
-		double cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-		inc = cyclesPerSecond /getSampleRate();
+		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
+		inc = noteFrequency /getSampleRate();
+		angleDelta = double_Pi * inc;
+	}
+
+	void recalculatePitch() {
+		inc = noteFrequency * std::pow(2.0, pitchBendCents() / 1200) / getSampleRate();
 		angleDelta = double_Pi * inc;
 	}
 

@@ -67,6 +67,7 @@ public:
     void initialiseSynth();
     double cutoff;
     double masterVolume;
+    double pitchWheel;
     MidiKeyboardState keyboardState;
 
 
@@ -87,8 +88,12 @@ private:
     SineRissetBeatsWaveVoice* myRissetBeats;
     OrganWaveVoice* myOrgan;
 
+    AudioProcessorEditor* editor = getActiveEditor();
+
+
     void handleNoteOff(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override;
     void handleNoteOn(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override;
+    void handlePitchWheel(MidiKeyboardState*, int midiChannel, int wheelValue);
     void handleIncomingMidiMessage(MidiInput* source, const MidiMessage& message);
 
     void setMidiInput(int index);

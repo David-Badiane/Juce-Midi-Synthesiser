@@ -35,6 +35,7 @@ SynthesizerAudioProcessor::SynthesizerAudioProcessor()
     keyboardState.addListener(this);
     cutoff = 400.0;
     masterVolume = 0.3;
+    pitchWheel = 0;
     oscBoxSelected = 1;
     initialiseSynth();
 }
@@ -64,6 +65,10 @@ void SynthesizerAudioProcessor::handleNoteOn(MidiKeyboardState*, int midiChannel
 void SynthesizerAudioProcessor::handleNoteOff(MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity)
 {
     mySynth.noteOff(midiChannel, midiNoteNumber, velocity,true);
+}
+
+void SynthesizerAudioProcessor::handlePitchWheel(MidiKeyboardState*, int midiChannel,int wheelValue){
+    mySynth.handlePitchWheel(midiChannel, wheelValue);
 }
 
 void SynthesizerAudioProcessor::initialiseSynth()
@@ -339,7 +344,6 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
 
     for (int i = 0; i < mySynth.getNumVoices(); i++)
     {
-    
         switch (oscBoxSelected)
         {
 
@@ -348,6 +352,8 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
             {
                 mySine->setADSRParameters(attack, release, sustain, decay);
                 mySine->setMasterVolume(masterVolume);
+                mySine->pitchWheelMoved(pitchWheel);
+                mySine->recalculatePitch();
             }
             break;
 
@@ -355,7 +361,9 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
             if ((mySaw = dynamic_cast<SawWaveVoice*>(mySynth.getVoice(i))))
             {
                 mySaw->setADSRParameters(attack, release, sustain, decay);
-                mySine->setMasterVolume(masterVolume);
+                mySaw->setMasterVolume(masterVolume);
+                mySaw->pitchWheelMoved(pitchWheel);
+                mySaw->recalculatePitch();
 
             }
             break;
@@ -365,6 +373,8 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
             {
                 mySquare->setADSRParameters(attack, release, sustain, decay);
                 mySquare->setMasterVolume(masterVolume);
+                mySquare->pitchWheelMoved(pitchWheel);
+                mySquare->recalculatePitch();
             }
             break;
 
@@ -373,6 +383,8 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
             {
                 myTriangle->setADSRParameters(attack, release, sustain, decay);
                 myTriangle->setMasterVolume(masterVolume);
+                myTriangle->pitchWheelMoved(pitchWheel);
+                myTriangle->recalculatePitch();
             }
             break;
 
@@ -380,7 +392,9 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
             if ((myBleepSaw = dynamic_cast<BleepSawWaveVoice*>(mySynth.getVoice(i))))
             {
                 myBleepSaw->setADSRParameters(attack, release, sustain, decay);
-                myBleepSaw->setMasterVolume(masterVolume);               
+                myBleepSaw->setMasterVolume(masterVolume);      
+                myBleepSaw->pitchWheelMoved(pitchWheel);
+                myBleepSaw->recalculatePitch();
             }
             break;
 
@@ -389,6 +403,8 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
             {
                 myBleepSquare->setADSRParameters(attack, release, sustain, decay);
                 myBleepSquare->setMasterVolume(masterVolume);
+                myBleepSquare->pitchWheelMoved(pitchWheel);
+                myBleepSquare->recalculatePitch();
             }  
             break;
 
@@ -397,6 +413,8 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
             {
                 myBleepTriangle->setADSRParameters(attack, release, sustain, decay);
                 myBleepTriangle->setMasterVolume(masterVolume);
+                myBleepTriangle->pitchWheelMoved(pitchWheel);
+                myBleepTriangle->recalculatePitch();
             }
             break;
 
@@ -405,6 +423,8 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
             {
                 myWhiteNoise->setADSRParameters(attack, release, sustain, decay);
                 myWhiteNoise->setMasterVolume(masterVolume);
+                myWhiteNoise->pitchWheelMoved(pitchWheel);
+                myWhiteNoise->recalculatePitch();
             }
             break;
 
@@ -414,6 +434,8 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
                 mySineBeats->update_beats(deltaFrequency);
                 mySineBeats->setADSRParameters(attack, release, sustain, decay);
                 mySineBeats->setMasterVolume(masterVolume);    
+                mySineBeats->pitchWheelMoved(pitchWheel);
+                mySineBeats->recalculatePitch();
             }
             break;
 
@@ -423,6 +445,8 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
                 myRissetBeats->update_beats(deltaFrequency);
                 myRissetBeats->setADSRParameters(attack, release, sustain, decay);
                 myRissetBeats->setMasterVolume(masterVolume);
+                myRissetBeats->pitchWheelMoved(pitchWheel);
+                myRissetBeats->recalculatePitch();
             }
             break;
 
@@ -432,6 +456,8 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
                 myOrgan->update_beats(deltaFrequency);
                 myOrgan->setADSRParameters(attack, release, sustain, decay);
                 myOrgan->setMasterVolume(masterVolume);
+                myOrgan->pitchWheelMoved(pitchWheel);
+                myOrgan->recalculatePitch();
             }
 
             break;
@@ -441,7 +467,6 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
 
 
     buffer.clear();
-
     mySynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
     updateFilter();

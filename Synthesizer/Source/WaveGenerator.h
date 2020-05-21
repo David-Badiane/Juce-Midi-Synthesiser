@@ -61,9 +61,15 @@ public:
 		adsr.noteOff();
 	}
 
-	void pitchWheelMoved(int /*newValue*/) override
+	void pitchWheelMoved(int value) override
 	{
-		// can't be bothered implementing this for the demo!
+		setPitchBend(value);
+		
+	}
+
+	void roughValuePitchWheelMove(int value) //rough value pass
+	{
+		wheelCoordinate = value;
 	}
 
 	void controllerMoved(int /*controllerNumber*/, int /*newValue*/) override
@@ -80,11 +86,54 @@ public:
 	}
 		
 	double masterGain;
+	double wheelCoordinate;
+
+	void setPitchBend(int pitchWheelPos)
+	{
+		if (pitchWheelPos >= 0)
+		{
+			// shifting up
+			wheelCoordinate = float(pitchWheelPos) / 64;
+		}
+		else
+		{
+			// shifting down
+			wheelCoordinate = float(pitchWheelPos) / 64;    // negative number
+		}
+	}
+
+
+
+	float pitchBendCents()
+	{
+		if (wheelCoordinate >= 0.0f)
+		{
+			// shifting up
+			return wheelCoordinate * pitchBendUpSemitones * 100;
+		}
+		else
+		{
+			// shifting down
+			return -1 * wheelCoordinate * pitchBendDownSemitones * 100;
+		}
+	}
+
+
+	static double noteHz(int midiNoteNumber, double centsOffset)
+	{
+		double hertz = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+		hertz *= std::pow(2.0, centsOffset / 1200);
+		return hertz;
+	}
 
 
 protected:
 
 	ADSR adsr;
 	ADSR::Parameters adsrParameters;
+
+	int pitchBendUpSemitones = 2;
+	int pitchBendDownSemitones = -2;
+	double noteFrequency;
 	
 };

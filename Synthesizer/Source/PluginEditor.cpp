@@ -17,8 +17,15 @@ SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudi
     masterVol.setTextValueSuffix("Master Volume");
     masterVol.setValue(1.0);
 
-    masterVol.addListener(this);
+    pitchWheel.setSliderStyle(Slider::LinearVertical);
+    pitchWheel.setRange(-64, 64, 1);
+    pitchWheel.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
+    pitchWheel.setValue(0.0);
 
+    masterVol.addListener(this);
+    pitchWheel.addListener(this);
+
+    addAndMakeVisible(&pitchWheel);
     addAndMakeVisible(&masterVol);
     addAndMakeVisible(&oscGui);
     addAndMakeVisible(&envGui);
@@ -46,6 +53,10 @@ void SynthesizerAudioProcessorEditor::resized()
     const int componentWidth = 200;
     const int componentHeight = 200;
 
+    pitchWheel.setBounds(area.removeFromLeft(componentWidth / 3).removeFromBottom(componentHeight / 2).removeFromTop(componentHeight - 50));
+    pitchWheel.onDragEnd = [this] { pitchWheel.setValue(0.0, dontSendNotification); 
+                                    processor.pitchWheel = 0;
+                                   };
     keyboardComponent.setBounds(area.removeFromBottom(componentHeight/2));
     oscGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     filterGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
@@ -58,4 +69,6 @@ void SynthesizerAudioProcessorEditor::resized()
 
 void SynthesizerAudioProcessorEditor::sliderValueChanged(Slider* slider) {
     processor.masterVolume = masterVol.getValue();
+    processor.pitchWheel = pitchWheel.getValue();
 }
+

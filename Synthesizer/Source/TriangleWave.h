@@ -19,8 +19,12 @@ public:
 		modulo = 0.0;
 		trigger = 0;
 		currentState = 1.0;
-		double cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber) * 2.0;
-		inc = cyclesPerSecond /( 2*getSampleRate());
+		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
+		inc = noteFrequency /( 2*getSampleRate());
+	}
+
+	void recalculatePitch() {
+		inc = noteFrequency * std::pow(2.0, pitchBendCents() / 1200) / getSampleRate();
 	}
 
 

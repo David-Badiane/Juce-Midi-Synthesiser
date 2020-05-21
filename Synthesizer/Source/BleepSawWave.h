@@ -18,8 +18,13 @@ public:
 		level = velocity * 0.25 ;
 		modulo = 0.0;
 		
-		double cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-		inc = cyclesPerSecond / getSampleRate();
+		//double cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
+		inc = noteFrequency / getSampleRate();
+	}
+
+	void recalculatePitch() {
+		inc = noteFrequency * std::pow(2.0, pitchBendCents() / 1200) / getSampleRate();
 	}
 
 	void renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override

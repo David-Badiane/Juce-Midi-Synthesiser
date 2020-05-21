@@ -18,8 +18,13 @@ public:
 		level = velocity * 0.15 ;
 		currentAngle = 0.0;
 
-		double cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-		inc = cyclesPerSecond / getSampleRate();
+		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
+		inc = noteFrequency / getSampleRate();
+		angleDelta = inc * 2.0 * double_Pi;
+	}
+
+	void recalculatePitch() {
+		inc = noteFrequency * std::pow(2.0, pitchBendCents() / 1200) / getSampleRate();
 		angleDelta = inc * 2.0 * double_Pi;
 	}
 
