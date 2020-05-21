@@ -16,5 +16,3 @@ Those elements are controlled by :
 - Master gain slider, found in the right part of the app;
 - Pitch bend extension slider, Pitch bend slider and Modulation bend slider next to the keyboard.
 
-
-In thePluginProcessorwe find everything that processes sound and has to be controlled, therefore weneed to put in its relative header file all the declarations of objects and variables necessary to process thesound. In thePluginEditorwe find everything that allows the user to control the sound, therefore we needto put in its relative header file elements such as sliders and combo boxes that control some parameters ofthePluginProcessorelements.
