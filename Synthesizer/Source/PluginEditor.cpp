@@ -60,19 +60,29 @@ void SynthesizerAudioProcessorEditor::resized()
     const int componentWidth = 200;
     const int componentHeight = 200;
 
-    masterVol.setColour(masterVol.thumbColourId, Colours::aquamarine);
+    masterVol.setColour(masterVol.thumbColourId, Colours::limegreen);
+    masterVol.onDragStart = [this] {masterVol.setColour(masterVol.thumbColourId, Colours::purple); };
+    masterVol.onDragEnd = [this] {masterVol.setColour(masterVol.thumbColourId, Colours::limegreen); };
+
+    pitchWheel.setColour(pitchWheel.thumbColourId, Colours::darkgoldenrod);
+    pitchWheel.onDragStart = [this] { pitchWheel.setColour(pitchWheel.thumbColourId, Colours::darkolivegreen); };
+    pitchWheel.onDragEnd = [this] { pitchWheel.setValue(0.0, dontSendNotification);
+                                    processor.pitchWheel = 0;
+                                    pitchWheel.setColour(pitchWheel.thumbColourId, Colours::darkgoldenrod);
+    };
+
+    modWheel.setColour(modWheel.thumbColourId, Colours::darkgoldenrod);
+    modWheel.onDragStart = [this] { modWheel.setColour(modWheel.thumbColourId, Colours::darkolivegreen); };
+    modWheel.onDragEnd = [this] { modWheel.setColour(modWheel.thumbColourId, Colours::darkgoldenrod);};
+
     pitchWheel.setBounds(area.removeFromLeft(componentWidth / 3).removeFromBottom(componentHeight / 2).removeFromTop(componentHeight - 50));
     modWheel.setBounds(area.removeFromLeft(componentWidth / 3).removeFromBottom(componentHeight / 2).removeFromTop(componentHeight - 50));
-    pitchWheel.onDragEnd = [this] { pitchWheel.setValue(0.0, dontSendNotification); 
-                                    processor.pitchWheel = 0;
-                                   };
     keyboardComponent.setBounds(area.removeFromBottom(componentHeight/2));
     oscGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     filterGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     envGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     masterVol.setBounds(area.removeFromLeft(componentWidth / 3).removeFromBottom(componentHeight - 30).removeFromTop(componentHeight - 50));
-    masterVol.onDragStart = [this] {masterVol.setColour(masterVol.thumbColourId, Colours::limegreen); };
-    masterVol.onDragEnd = [this] {masterVol.setColour(masterVol.thumbColourId, Colours::aquamarine); };
+   
 
     
 }
