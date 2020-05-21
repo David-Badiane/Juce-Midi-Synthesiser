@@ -66,7 +66,7 @@ public:
 
 //========================================================================================
 
-	void pitchWheelMoved(int value) override
+	void pitchWheelMoved(int value)
 	{
 		setPitchBend(value);
 	}
@@ -74,6 +74,12 @@ public:
 	void roughValuePitchWheelMove(int value) //rough value pass
 	{
 		wheelCoordinate = value;
+	}
+
+	void setBendExtension(int extension)
+	{
+		pitchBendUpSemitones = extension;
+		pitchBendDownSemitones = -extension;
 	}
 	
 	void recalculatePitch() {

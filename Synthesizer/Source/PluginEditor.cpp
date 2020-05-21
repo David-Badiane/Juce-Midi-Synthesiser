@@ -27,10 +27,18 @@ SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudi
     modWheel.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
     modWheel.setValue(0.0);
 
+    bendExtension.setSliderStyle(Slider::SliderStyle::LinearBarVertical);
+    bendExtension.setRange(0, 12, 1);
+    bendExtension.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
+    bendExtension.setTextValueSuffix("Bend Extension");
+    bendExtension.setValue(0.0);
+
     masterVol.addListener(this);
     pitchWheel.addListener(this);
     modWheel.addListener(this);
+    bendExtension.addListener(this);
 
+    addAndMakeVisible(&bendExtension);
     addAndMakeVisible(&pitchWheel);
     addAndMakeVisible(&modWheel);
     addAndMakeVisible(&masterVol);
@@ -75,8 +83,9 @@ void SynthesizerAudioProcessorEditor::resized()
     modWheel.onDragStart = [this] { modWheel.setColour(modWheel.thumbColourId, Colours::darkolivegreen); };
     modWheel.onDragEnd = [this] { modWheel.setColour(modWheel.thumbColourId, Colours::darkgoldenrod);};
 
-    pitchWheel.setBounds(area.removeFromLeft(componentWidth / 3).removeFromBottom(componentHeight / 2).removeFromTop(componentHeight - 50));
-    modWheel.setBounds(area.removeFromLeft(componentWidth / 3).removeFromBottom(componentHeight / 2).removeFromTop(componentHeight - 50));
+    bendExtension.setBounds(area.removeFromLeft(componentWidth / 9).removeFromBottom(componentHeight / 2).removeFromTop(componentHeight - 50));
+    pitchWheel.setBounds(area.removeFromLeft(componentWidth / 9).removeFromBottom(componentHeight / 2).removeFromTop(componentHeight - 50));
+    modWheel.setBounds(area.removeFromLeft(componentWidth / 9).removeFromBottom(componentHeight / 2).removeFromTop(componentHeight - 50));
     keyboardComponent.setBounds(area.removeFromBottom(componentHeight/2));
     oscGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     filterGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
@@ -92,5 +101,6 @@ void SynthesizerAudioProcessorEditor::sliderValueChanged(Slider* slider) {
     processor.masterVolume = masterVol.getValue();
     processor.pitchWheel = pitchWheel.getValue();
     processor.modWheel = modWheel.getValue();
+    processor.bendExt = bendExtension.getValue();
 }
 

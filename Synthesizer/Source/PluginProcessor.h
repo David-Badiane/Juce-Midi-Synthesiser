@@ -64,6 +64,7 @@ public:
     double deltaFrequency;
     const int numVoices = 3;
 
+    int bendExt;
     void initialiseSynth();
     double cutoff;
     double masterVolume;

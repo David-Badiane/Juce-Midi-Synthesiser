@@ -29,6 +29,7 @@ private:
     Envelope envGui;
     Filter filterGui;
     Slider masterVol;
+    Slider bendExtension;
     Slider pitchWheel;
     Slider modWheel;
 
