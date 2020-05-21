@@ -77,8 +77,8 @@ private:
 			float Sample2 = 0;
 			for (int i = 0; i < 8; i++)
 			{
-				Sample1 = Sample1 + (float)(std::sin(currentAngle[i]) * level * masterGain);
-				Sample2 = Sample2 + (float)(std::sin(currentAngle2[i]) * level * masterGain);
+				Sample1 = Sample1 + (float)(std::sin(currentAngle[i] + 2 * double_Pi * modWheel) * level * masterGain);
+				Sample2 = Sample2 + (float)(std::sin(currentAngle2[i] + 2 * double_Pi * modWheel) * level * masterGain);
 			}
 
 				outputBuffer.addSample(0, startSample, adsr.getNextSample() * Sample1);

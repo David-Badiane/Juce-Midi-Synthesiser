@@ -19,16 +19,34 @@ public:
 		currentAngle = 0.0;
 		level = velocity * 0.25 ;
 		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
-		double cyclesPerSample = noteFrequency / getSampleRate();
-		angleDelta = cyclesPerSample * 2.0 * double_Pi;
+		inc = noteFrequency / getSampleRate();
+		angleDelta = inc * 2.0 * double_Pi;
 		
+	}
+
+
+	void stretchFrequencies() {
+		int sign = 1;
+		if (noteFrequency > 10000) {
+			decrescentmod = true;
+		}
+		else if (noteFrequency < 40) {
+			decrescentmod = false;
+		}
+		if (decrescentmod) {
+			sign = -1;
+		}
+
+		noteFrequency *= std::pow(2.0, 64 * modWheel * sign / 1200); //change pitchBendCents() with modwheel
+		inc = noteFrequency / getSampleRate();
 	}
 
 
 	void recalculatePitch() {
 		double frequency = noteFrequency * std::pow(2.0, pitchBendCents() / 1200);
-		double cyclesPerSample = frequency / getSampleRate();
-		angleDelta = cyclesPerSample * 2.0 * double_Pi;
+		inc = frequency / getSampleRate();
+		stretchFrequencies();
+		angleDelta = inc * 2.0 * double_Pi;
 	}
 
 
@@ -46,8 +64,9 @@ private :
 	
 		while (--numSamples >= 0)
 		{
-			auto Sample = (float)(std::sin(currentAngle) * level * masterGain);
 
+			auto Sample = (float)(std::sin(currentAngle) * std::pow(2, level * masterGain));
+			
 			for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
 				outputBuffer.addSample(i, startSample, adsr.getNextSample() * Sample);
 
@@ -56,5 +75,5 @@ private :
 		}
 	}
 
-	double currentAngle, angleDelta, level;
+	double currentAngle, angleDelta, level, inc;
 };

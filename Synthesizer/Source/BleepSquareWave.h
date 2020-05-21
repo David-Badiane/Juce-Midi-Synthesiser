@@ -29,8 +29,25 @@ public:
 		processBlock(outputBuffer, startSample, numSamples);
 	}
 
+	void stretchFrequencies() {
+		int sign = 1;
+		if (noteFrequency > 10000) {
+			decrescentmod = true;
+		}
+		else if (noteFrequency < 40) {
+			decrescentmod = false;
+		}
+		if (decrescentmod) {
+			sign = -1;
+		}
+
+		noteFrequency *= std::pow(2.0, 64 * modWheel * sign / 1200); //change pitchBendCents() with modwheel
+		inc = noteFrequency / getSampleRate();
+	}
+
 	void recalculatePitch() {
 		inc = noteFrequency * std::pow(2.0, pitchBendCents() / 1200) / getSampleRate();
+		stretchFrequencies();
 	}
 
 private:

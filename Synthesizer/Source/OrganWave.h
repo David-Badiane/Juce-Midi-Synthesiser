@@ -71,7 +71,7 @@ private:
 			float Sample = 0;
 
 			for (int i = 0; i < 10; i++)
-				Sample = Sample + (float)(std::sin(currentAngle[i]) * level * masterGain);
+				Sample = Sample + (float)(std::sin(currentAngle[i] + 2 * double_Pi * modWheel) * level * masterGain);
 			;
 
 			for (auto i = outputBuffer.getNumChannels(); --i >= 0;)

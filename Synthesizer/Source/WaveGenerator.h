@@ -134,6 +134,7 @@ public:
 	bool decrescentmod = false;
 
 
+
 protected:
 
 	ADSR adsr;
