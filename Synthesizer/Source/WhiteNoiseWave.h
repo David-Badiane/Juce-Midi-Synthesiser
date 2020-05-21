@@ -18,7 +18,7 @@ public:
 		level = velocity * 0.15 ;
 		currentAngle = 0.0;
 
-		double cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+		double cyclesPerSecond = noteHz(midiNoteNumber, pitchBendCents());
 		inc = cyclesPerSecond / getSampleRate();
 		angleDelta = inc * 2.0 * double_Pi;
 	}

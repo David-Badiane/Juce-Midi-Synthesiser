@@ -29,6 +29,7 @@ private:
     Envelope envGui;
     Filter filterGui;
     Slider masterVol;
+    Slider pitchWheel;
 
     Slider::Listener* slider;
     void sliderValueChanged(Slider* slider) override;

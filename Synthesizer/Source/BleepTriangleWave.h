@@ -20,7 +20,7 @@ public:
 		modulo = 0.0;
 		currentState = 1.0;
 
-		double cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+		double cyclesPerSecond = noteHz(midiNoteNumber, pitchBendCents());
 		inc = cyclesPerSecond /getSampleRate();
 		angleDelta = double_Pi * inc;
 	}

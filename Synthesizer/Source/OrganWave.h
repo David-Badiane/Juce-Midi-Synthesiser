@@ -17,7 +17,7 @@ public:
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound*, int) override
 	{
 		adsr.noteOn();
-		noteFrequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
 		for (int i = 0; i < 3; i++)
 		{
 			currentAngle[i] = 0;

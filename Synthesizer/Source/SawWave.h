@@ -17,9 +17,21 @@ public:
 		adsr.noteOn();
 		level = velocity * 0.25 ;
 		modulo = 0.0;
-		double cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-		inc = cyclesPerSecond / getSampleRate();
+		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
+		double cyclesPerSecond = noteFrequency;
+		inc = noteFrequency / getSampleRate();
 	}
+
+	void recalculatePitch() {
+		inc = noteFrequency * std::pow(2.0, pitchBendCents() / 1200) / getSampleRate();
+	}
+
+
+	void stretchFrequencies() {
+		noteFrequency *= std::pow(2.0, pitchBendCents() / 1200); //change pitchBendCents() with modwheel
+		inc = noteFrequency / getSampleRate();
+	}
+
 
 	void renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override
 	{
@@ -47,6 +59,6 @@ private:
 		}
 	}
 
-	double level, modulo, inc;
+	double level, modulo, inc, deltaFreq;
 
 };

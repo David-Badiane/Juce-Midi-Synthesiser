@@ -18,7 +18,7 @@ public:
 		level = velocity * 0.25 ;
 		modulo = 0.0;
 	
-		double cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+		double cyclesPerSecond = noteHz(midiNoteNumber, pitchBendCents());
 		inc = cyclesPerSecond / getSampleRate();
 	}
 

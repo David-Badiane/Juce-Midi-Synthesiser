@@ -17,7 +17,7 @@ public:
 	{
 		adsr.noteOn();
 		deltaFreq = 4;
-		noteFrequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
 		for (int i = 0; i < 2; i++)
 		{
 			currentAngle[i] = 0;
