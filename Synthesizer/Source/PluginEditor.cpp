@@ -60,6 +60,7 @@ void SynthesizerAudioProcessorEditor::resized()
     const int componentWidth = 200;
     const int componentHeight = 200;
 
+    masterVol.setColour(masterVol.thumbColourId, Colours::aquamarine);
     pitchWheel.setBounds(area.removeFromLeft(componentWidth / 3).removeFromBottom(componentHeight / 2).removeFromTop(componentHeight - 50));
     modWheel.setBounds(area.removeFromLeft(componentWidth / 3).removeFromBottom(componentHeight / 2).removeFromTop(componentHeight - 50));
     pitchWheel.onDragEnd = [this] { pitchWheel.setValue(0.0, dontSendNotification); 
@@ -70,6 +71,8 @@ void SynthesizerAudioProcessorEditor::resized()
     filterGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     envGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     masterVol.setBounds(area.removeFromLeft(componentWidth / 3).removeFromBottom(componentHeight - 30).removeFromTop(componentHeight - 50));
+    masterVol.onDragStart = [this] {masterVol.setColour(masterVol.thumbColourId, Colours::limegreen); };
+    masterVol.onDragEnd = [this] {masterVol.setColour(masterVol.thumbColourId, Colours::aquamarine); };
 
     
 }
