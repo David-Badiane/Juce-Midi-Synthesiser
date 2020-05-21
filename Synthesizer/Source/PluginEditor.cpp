@@ -7,7 +7,7 @@ SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudi
     :AudioProcessorEditor(&p), processor(p), oscGui(p), envGui(p), filterGui(p),
     keyboardComponent(p.keyboardState, MidiKeyboardComponent::horizontalKeyboard)
 {
-    setSize(900, 300);
+    setSize(800, 300);
     setResizable(true, true);
 
     
@@ -28,7 +28,7 @@ SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudi
     modWheel.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
     modWheel.setValue(0.0);
 
-    bendExtension.setSliderStyle(Slider::SliderStyle::LinearBarVertical);
+    bendExtension.setSliderStyle(Slider::SliderStyle::LinearVertical);
     bendExtension.setRange(0, 12, 1);
     bendExtension.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
     bendExtension.setTextValueSuffix("Bend Extension");
@@ -57,6 +57,7 @@ SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudi
 
 SynthesizerAudioProcessorEditor::~SynthesizerAudioProcessorEditor()
 {
+    setOpaque(false);
 }
 
 
@@ -82,30 +83,34 @@ void SynthesizerAudioProcessorEditor::resized()
     const int componentHeight = 200;
 
     masterVol.setColour(masterVol.thumbColourId, Colours::limegreen);
-    masterVol.onDragStart = [this] {masterVol.setColour(masterVol.thumbColourId, Colours::purple); };
+    masterVol.onDragStart = [this] {masterVol.setColour(masterVol.thumbColourId, Colours::darkgoldenrod); };
     masterVol.onDragEnd = [this] {masterVol.setColour(masterVol.thumbColourId, Colours::limegreen); };
+    masterVol.setColour(masterVol.trackColourId, Colours::limegreen);
 
     pitchWheel.setColour(pitchWheel.thumbColourId, Colours::darkgoldenrod);
-    pitchWheel.onDragStart = [this] { pitchWheel.setColour(pitchWheel.thumbColourId, Colours::darkolivegreen); };
+    pitchWheel.onDragStart = [this] { pitchWheel.setColour(pitchWheel.thumbColourId, Colours::yellow); };
     pitchWheel.onDragEnd = [this] { pitchWheel.setValue(0.0, dontSendNotification);
                                     processor.pitchWheel = 0;
                                     pitchWheel.setColour(pitchWheel.thumbColourId, Colours::darkgoldenrod);
     };
 
     modWheel.setColour(modWheel.thumbColourId, Colours::darkgoldenrod);
-    modWheel.onDragStart = [this] { modWheel.setColour(modWheel.thumbColourId, Colours::darkolivegreen); };
+    modWheel.onDragStart = [this] { modWheel.setColour(modWheel.thumbColourId, Colours::yellow); };
     modWheel.onDragEnd = [this] { modWheel.setColour(modWheel.thumbColourId, Colours::darkgoldenrod);};
 
-    bendExtension.setColour(bendExtension.thumbColourId, Colours::limegreen);
+    bendExtension.setColour(bendExtension.thumbColourId, Colours::purple);
+    bendExtension.setColour(bendExtension.trackColourId, Colours::purple);
+    bendExtension.setColour(bendExtension.textBoxOutlineColourId, Colours::lightgrey);
 
-    bendExtension.setBounds(area.removeFromLeft(componentWidth / 9).removeFromBottom(componentHeight / 2).removeFromTop(componentHeight - 50));
+    juce::Rectangle<int> extArea(20, 50, 20, 100);
+    bendExtension.setBounds(extArea);
     pitchWheel.setBounds(area.removeFromLeft(componentWidth / 9).removeFromBottom(componentHeight / 2).removeFromTop(componentHeight - 50));
     modWheel.setBounds(area.removeFromLeft(componentWidth / 9).removeFromBottom(componentHeight / 2).removeFromTop(componentHeight - 50));
     keyboardComponent.setBounds(area.removeFromBottom(componentHeight/2));
     oscGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     filterGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     envGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
-    masterVol.setBounds(area.removeFromLeft(componentWidth / 3).removeFromBottom(componentHeight - 30).removeFromTop(componentHeight - 50));
+    masterVol.setBounds(area.removeFromRight(componentWidth / 3).removeFromBottom(componentHeight - 30).removeFromTop(componentHeight - 50));
    
 
     

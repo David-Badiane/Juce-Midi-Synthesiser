@@ -56,7 +56,7 @@ void Filter::paint(Graphics& g)
     //background ui stuff
     juce::Rectangle<int> titleArea(0, 10, getWidth(), 20);
 
-    g.setColour(Colours::black);
+    g.setColour(Colours::lightgrey);
     g.setFont(Font("Courier", 15.0f, Font::bold));
     g.drawText("Filter", titleArea, Justification::centredTop);
 
