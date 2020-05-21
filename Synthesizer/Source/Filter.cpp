@@ -22,6 +22,7 @@ Filter::Filter(SynthesizerAudioProcessor& p) :
     addAndMakeVisible(&filterKind);
    
     filterCutoff.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    filterCutoff.setLookAndFeel(&knobStyle);
     filterCutoff.setRange(20.0, 10000.0);
     filterCutoff.setValue(400.0);
     filterCutoff.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
@@ -30,6 +31,7 @@ Filter::Filter(SynthesizerAudioProcessor& p) :
     addAndMakeVisible(&filterCutoff);
 
     filterRes.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    filterRes.setLookAndFeel(&knobStyle);
     filterRes.setRange(1, 5);
     filterRes.setValue(1);
     filterRes.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
@@ -45,6 +47,8 @@ Filter::Filter(SynthesizerAudioProcessor& p) :
 
 Filter::~Filter()
 {
+    filterCutoff.setLookAndFeel(nullptr);
+    filterRes.setLookAndFeel(nullptr);
 }
 
 void Filter::paint(Graphics& g)
@@ -52,13 +56,14 @@ void Filter::paint(Graphics& g)
     //background ui stuff
     juce::Rectangle<int> titleArea(0, 10, getWidth(), 20);
 
-    g.setColour(Colours::white);
+    g.setColour(Colours::black);
+    g.setFont(Font("Courier", 15.0f, Font::bold));
     g.drawText("Filter", titleArea, Justification::centredTop);
 
-    juce::Rectangle <float> area(25, 25, 150, 150);
+    juce::Rectangle <float> area(25, 33, 150, 150);
 
-    g.setColour(Colours::aliceblue);
-    g.drawRoundedRectangle(area, 20.0f, 2.0f);
+    g.setColour(Colours::darkgoldenrod);
+    g.drawRoundedRectangle(area, 20.0f, 8.0f);
 }
 
 void Filter::resized()

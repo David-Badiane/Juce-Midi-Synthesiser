@@ -63,8 +63,8 @@ void Envelope::paint(Graphics& g)
     //fancy stuff for the UI background etc
     juce::Rectangle<int> titleArea(0, 10, getWidth(), 20);
 
-    g.setColour(Colours::greenyellow);
-    g.setFont(Font("Courier", 15.0f, Font::italic));
+    g.setColour(Colours::black);
+    g.setFont(Font("Courier", 15.0f, Font::bold));
 
     g.drawText("Envelope", titleArea, Justification::centredTop);
 
@@ -74,7 +74,7 @@ void Envelope::paint(Graphics& g)
     g.drawText("S", 103, 150, 20, 20, Justification::centredTop);
     g.drawText("R", 128, 150, 20, 20, Justification::centredTop);
 
-    juce::Rectangle <float> area(25, 30, 150, 150);
+    juce::Rectangle <float> area(25, 33, 150, 150);
 
     g.setColour(Colours::black);
     g.drawRoundedRectangle(area, 20.0f, 8.0f);
