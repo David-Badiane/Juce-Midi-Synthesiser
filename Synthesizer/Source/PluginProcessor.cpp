@@ -376,7 +376,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
                 mySquare->setADSRParameters(attack, release, sustain, decay);
                 mySquare->setMasterVolume(masterVolume);
                 mySquare->pitchWheelMoved(pitchWheel);
-                mySaw->setModWheel(modWheel);
+                mySquare->setModWheel(modWheel);
                 mySquare->recalculatePitch();
             }
             break;

@@ -10,42 +10,17 @@ class BleepTriangleWaveSound : public WaveGeneratorSound {};
 class BleepTriangleWaveVoice : public WaveGeneratorVoice {
 
 public:
-	BleepTriangleWaveVoice() : level(0), modulo(0), inc(0), angleDelta(0) {}
+	BleepTriangleWaveVoice() : level(0), modulo(0){}
 
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound*, int) override 
 	{
 		adsr.noteOn();
-		lastOutput = 0.0;
 		level = velocity * 0.25 ;
 		modulo = 0.0;
-		currentState = 1.0;
-
 		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
-		inc = noteFrequency /getSampleRate();
-		angleDelta = double_Pi * inc;
+		inc = 2 * noteFrequency /getSampleRate();
 	}
 
-	void stretchFrequencies() {
-		int sign = 1;
-		if (noteFrequency > 10000) {
-			decrescentmod = true;
-		}
-		else if (noteFrequency < 40) {
-			decrescentmod = false;
-		}
-		if (decrescentmod) {
-			sign = -1;
-		}
-
-		noteFrequency *= std::pow(2.0, 64 * modWheel * sign / 1200); //change pitchBendCents() with modwheel
-		inc = noteFrequency / getSampleRate();
-	}
-
-	void recalculatePitch() {
-		inc = noteFrequency * std::pow(2.0, pitchBendCents() / 1200) / getSampleRate();
-		stretchFrequencies();
-		angleDelta = double_Pi * inc;
-	}
 
 	void renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override
 	{
@@ -56,21 +31,18 @@ public:
 
 private:
 
-	double polyBlep(double t)
+	double polyBleep(double t)
 	{
 		if (t < inc)
-			// 0 <= t < 1
 		{
 			t /= inc;
 			return t + t - t * t - 1.0;
 		}
-		// -1 < t < 0
-		else if (t > 1.0 - inc)
+		else if (t > 2.0 - inc)
 		{
-			t = (t - 1.0) / inc;
+			t = (t - 2.0) / inc;
 			return t * t + t + t + 1.0;
 		}
-		//0 
 		else return 0.0;
 	}
 
@@ -78,30 +50,17 @@ private:
 	{
 		while (--numSamples >= 0)
 		{
-			if (modulo >= 1.0)
-				modulo -= 1.0;
-
-			if (modulo > 0.5)
-				currentState = -1.0;
-			
-			else
-				currentState = 1.0;
-
-				currentState *= level;
-				currentState += polyBlep(modulo);
-				currentState -= polyBlep(fmod(modulo + 0.5, 1.0));
-				currentState = angleDelta * currentState + (1 - angleDelta) * lastOutput;
-				lastOutput = currentState;
-				float Sample = (float)(currentState * masterGain);
-
-				for (int i = outputBuffer.getNumChannels(); --i >= 0;)
-					outputBuffer.addSample(i, startSample, adsr.getNextSample() * Sample);
-
-				modulo += inc;
-				++startSample;
+			if (modulo >= 2.0)
+				modulo -= 2.0;
+			double normalTriangle = (abs(2 * modulo - 2.0) -1) * level;
+			double polyTriangle = normalTriangle - polyBleep(modulo);
+			float sample = (float)(polyTriangle * masterGain);
+			for (int i = outputBuffer.getNumChannels(); --i >= 0;)
+				outputBuffer.addSample(i, startSample, adsr.getNextSample() * sample);
+			modulo += inc;
+			++startSample;
 		}
 	}
 
-	double level, modulo, inc, angleDelta, currentState;
-	double lastOutput;
+	double level, modulo;
 };

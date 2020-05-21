@@ -11,7 +11,7 @@ class SineBeatsWaveSound : public WaveGeneratorSound {
 class SineBeatsWaveVoice : public WaveGeneratorVoice {
 
 public:
-	SineBeatsWaveVoice() : currentAngle{ 0,0 }, angleDelta{ 0, 0 }, level(0), noteFrequency(0), deltaFreq(0) {}
+	SineBeatsWaveVoice() : currentAngle{ 0,0 }, angleDelta{ 0, 0 }, level(0), deltaFreq(0) {}
 
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound*, int) override 
 	{
@@ -22,8 +22,8 @@ public:
 		{
 			currentAngle[i] = 0;
 			double frequency = noteFrequency + i*deltaFreq;
-			double cyclesPerSample = frequency / getSampleRate();
-			angleDelta[i] = cyclesPerSample * 2.0 * double_Pi;
+			inc = frequency / getSampleRate();
+			angleDelta[i] = inc * 2.0 * double_Pi;
 		}
 		level = velocity * 0.15;
 	}
@@ -33,8 +33,8 @@ public:
 		for (int i = 0; i < 2; i++)
 		{
 			double frequency = freq + i * deltaFreq;
-			double cyclesPerSample = frequency / getSampleRate();
-			angleDelta[i] = cyclesPerSample * 2.0 * double_Pi;
+			inc = frequency / getSampleRate();
+			angleDelta[i] = inc * 2.0 * double_Pi;
 		}
 	}
 
@@ -81,5 +81,5 @@ private:
 		}
 	}
 
-	double currentAngle[2], angleDelta[2],level, deltaFreq, noteFrequency;
+	double currentAngle[2], angleDelta[2],level, deltaFreq;
 };

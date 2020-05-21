@@ -24,7 +24,8 @@ public:
 class WaveGeneratorVoice : public SynthesiserVoice
 {
 public:
-	WaveGeneratorVoice() : masterGain(1)
+	WaveGeneratorVoice() : masterGain(1), inc(0), modWheel(0),
+						   noteFrequency(0), wheelCoordinate(0)
 	{
 	}
 
@@ -32,6 +33,8 @@ public:
 	{
 		return dynamic_cast<WaveGeneratorSound*> (sound) != nullptr;
 	}
+
+//========================================================================================
 
 	void setADSRSampleRate(double sampleRate)
 	{
@@ -49,7 +52,7 @@ public:
 		adsrParameters.release = *rel;
 	}
 
-
+//========================================================================================
 
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound*, int) override
 	{
@@ -61,32 +64,20 @@ public:
 		adsr.noteOff();
 	}
 
+//========================================================================================
+
 	void pitchWheelMoved(int value) override
 	{
 		setPitchBend(value);
-		
 	}
 
 	void roughValuePitchWheelMove(int value) //rough value pass
 	{
 		wheelCoordinate = value;
 	}
-
-	void controllerMoved(int /*controllerNumber*/, int /*newValue*/) override
-	{
-		// not interested in controllers in this case.
-	}
-
-	void setMasterVolume(double volz) {
-		masterGain = volz;
-	}
-
-	void setModWheel(double pos) {
-		modWheel = pos;
-	}
-
-	void renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override
-	{
+	
+	void recalculatePitch() {
+		inc = noteFrequency * std::pow(2.0, pitchBendCents() / 1200) / getSampleRate();
 	}
 
 	void setPitchBend(int pitchWheelPos)
@@ -103,8 +94,6 @@ public:
 		}
 	}
 
-
-
 	float pitchBendCents()
 	{
 		if (wheelCoordinate >= 0.0f)
@@ -119,6 +108,7 @@ public:
 		}
 	}
 
+//========================================================================================
 
 	static double noteHz(int midiNoteNumber, double centsOffset)
 	{
@@ -127,21 +117,63 @@ public:
 		return hertz;
 	}
 
-	double masterGain;
-	double wheelCoordinate;
-	double modWheel;
+//========================================================================================
 
-	bool decrescentmod = false;
+	void setModWheel(double pos) 
+	{
+    	modWheel = pos;
+    	stretchFrequencies();
+    }
+	
+	void stretchFrequencies() {
+		int sign = 1;
+		if (noteFrequency > 10000) {
+			decrescentmod = true;
+		}
+		else if (noteFrequency < 40) {
+			decrescentmod = false;
+		}
+		if (decrescentmod) {
+			sign = -1;
+		}
 
+		noteFrequency *= std::pow(2.0, 64 * modWheel * sign / 1200); //change pitchBendCents() with modwheel
+		inc = noteFrequency / getSampleRate();
+	}
+
+//========================================================================================
+
+
+	void controllerMoved(int /*controllerNumber*/, int /*newValue*/) override
+	{
+	}
+
+//========================================================================================
+
+    
+	void setMasterVolume(double volz) {
+		masterGain = volz;
+	}
+
+//========================================================================================
+
+	void renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override
+	{
+	}
 
 
 protected:
 
+	double masterGain;
+	double wheelCoordinate;
+	double modWheel;
+	double inc;
+
+	bool decrescentmod = false;
 	ADSR adsr;
 	ADSR::Parameters adsrParameters;
 
 	int pitchBendUpSemitones = 2;
 	int pitchBendDownSemitones = -2;
 	double noteFrequency;
-	
 };

@@ -10,38 +10,16 @@ class TriangleWaveSound : public WaveGeneratorSound {};
 class TriangleWaveVoice : public WaveGeneratorVoice {
 
 public:
-	TriangleWaveVoice() : level(0), modulo(0), inc(0) {}
+	TriangleWaveVoice() : level(0), modulo(0), currentState(1) {}
 
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound*, int) override {
 
 		adsr.noteOn();
 		level = velocity * 0.25 ;
 		modulo = 0.0;
-		trigger = 0;
 		currentState = 1.0;
 		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
-		inc = noteFrequency /( 2*getSampleRate());
-	}
-
-	void stretchFrequencies() {
-		int sign = 1;
-		if (noteFrequency > 10000) {
-			decrescentmod = true;
-		}
-		else if (noteFrequency < 40) {
-			decrescentmod = false;
-		}
-		if (decrescentmod) {
-			sign = -1;
-		}
-
-		noteFrequency *= std::pow(2.0, 64 * modWheel * sign / 1200); //change pitchBendCents() with modwheel
 		inc = noteFrequency / getSampleRate();
-	}
-
-	void recalculatePitch() {
-		inc = noteFrequency * std::pow(2.0, pitchBendCents() / 1200) / getSampleRate();
-		stretchFrequencies();
 	}
 
 
@@ -73,10 +51,8 @@ private:
 			modulo += inc;
 			++startSample;
 		}
-	
 	}
 
 
-	double level, modulo, currentState, inc;
-	int trigger;
+	double level, modulo, currentState;
 };

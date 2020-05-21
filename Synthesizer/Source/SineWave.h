@@ -16,6 +16,7 @@ public:
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound*, int) override{
 
 		adsr.noteOn();
+		inc = 0;
 		currentAngle = 0.0;
 		level = velocity * 0.25 ;
 		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
@@ -24,28 +25,9 @@ public:
 		
 	}
 
-
-	void stretchFrequencies() {
-		int sign = 1;
-		if (noteFrequency > 10000) {
-			decrescentmod = true;
-		}
-		else if (noteFrequency < 40) {
-			decrescentmod = false;
-		}
-		if (decrescentmod) {
-			sign = -1;
-		}
-
-		noteFrequency *= std::pow(2.0, 64 * modWheel * sign / 1200); //change pitchBendCents() with modwheel
-		inc = noteFrequency / getSampleRate();
-	}
-
-
 	void recalculatePitch() {
 		double frequency = noteFrequency * std::pow(2.0, pitchBendCents() / 1200);
 		inc = frequency / getSampleRate();
-		stretchFrequencies();
 		angleDelta = inc * 2.0 * double_Pi;
 	}
 
@@ -75,5 +57,5 @@ private :
 		}
 	}
 
-	double currentAngle, angleDelta, level, inc;
+	double currentAngle, angleDelta, level;
 };

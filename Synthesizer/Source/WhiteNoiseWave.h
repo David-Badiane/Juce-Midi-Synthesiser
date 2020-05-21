@@ -42,7 +42,6 @@ public:
 
 	void recalculatePitch() {
 		inc = noteFrequency * std::pow(2.0, pitchBendCents() / 1200) / getSampleRate();
-		stretchFrequencies();
 		angleDelta = inc * 2.0 * double_Pi;
 	}
 
@@ -59,7 +58,7 @@ private:
 	{
 		while (--numSamples >= 0)
 		{
-			const float Sample = static_cast<float> (((rnumber.nextFloat() ) - 1.0 + std::sin(currentAngle)) * level * masterGain);
+			const float Sample = (float)(((rnumber.nextFloat() ) - 1.0 + std::sin(currentAngle)) * level * masterGain);
 			for (int i = outputBuffer.getNumChannels(); --i >= 0;) {
 				outputBuffer.addSample(i, startSample, adsr.getNextSample() * Sample);
 			}
@@ -68,6 +67,6 @@ private:
 		}
 	}
 
-	double currentAngle, angleDelta,level, inc;
+	double currentAngle, angleDelta,level;
 	Random rnumber;
 };
