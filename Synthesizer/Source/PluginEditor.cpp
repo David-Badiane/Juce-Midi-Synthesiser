@@ -32,6 +32,9 @@ SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudi
     bendExtension.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
     bendExtension.setTextValueSuffix("Bend Extension");
     bendExtension.setValue(0.0);
+	
+	keyboardComponent.setColour(keyboardComponent.blackNoteColourId, Colours::darkslategrey);
+    keyboardComponent.setColour(keyboardComponent.whiteNoteColourId, Colours::lightgrey);
 
     masterVol.addListener(this);
     pitchWheel.addListener(this);
