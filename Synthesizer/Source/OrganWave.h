@@ -28,6 +28,16 @@ public:
 		level = velocity * 0.04 ;
 	}
 
+	void recalculatePitch() {
+		double freq = noteFrequency * std::pow(2.0, pitchBendCents() / 1200);
+		for (int i = 0; i < 8; i++)
+		{
+			double frequency = freq + i * deltaFreq;
+			double cyclesPerSample = frequency / getSampleRate();
+			angleDelta[i] = cyclesPerSample * 2.0 * double_Pi;
+		}
+	}
+
 	void update_beats(double deltaFreqParam)
 	{
 		deltaFreq = deltaFreqParam/4;
