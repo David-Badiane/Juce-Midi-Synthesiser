@@ -353,6 +353,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
                 mySine->setADSRParameters(attack, release, sustain, decay);
                 mySine->setMasterVolume(masterVolume);
                 mySine->pitchWheelMoved(pitchWheel);
+                mySine->setModWheel(modWheel);
                 mySine->recalculatePitch();
             }
             break;
@@ -363,6 +364,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
                 mySaw->setADSRParameters(attack, release, sustain, decay);
                 mySaw->setMasterVolume(masterVolume);
                 mySaw->pitchWheelMoved(pitchWheel);
+                mySaw->setModWheel(modWheel);
                 mySaw->recalculatePitch();
 
             }
@@ -374,6 +376,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
                 mySquare->setADSRParameters(attack, release, sustain, decay);
                 mySquare->setMasterVolume(masterVolume);
                 mySquare->pitchWheelMoved(pitchWheel);
+                mySaw->setModWheel(modWheel);
                 mySquare->recalculatePitch();
             }
             break;
@@ -384,6 +387,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
                 myTriangle->setADSRParameters(attack, release, sustain, decay);
                 myTriangle->setMasterVolume(masterVolume);
                 myTriangle->pitchWheelMoved(pitchWheel);
+                myTriangle->setModWheel(modWheel);
                 myTriangle->recalculatePitch();
             }
             break;
@@ -394,6 +398,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
                 myBleepSaw->setADSRParameters(attack, release, sustain, decay);
                 myBleepSaw->setMasterVolume(masterVolume);      
                 myBleepSaw->pitchWheelMoved(pitchWheel);
+                myBleepSaw->setModWheel(modWheel);
                 myBleepSaw->recalculatePitch();
             }
             break;
@@ -404,6 +409,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
                 myBleepSquare->setADSRParameters(attack, release, sustain, decay);
                 myBleepSquare->setMasterVolume(masterVolume);
                 myBleepSquare->pitchWheelMoved(pitchWheel);
+                myBleepSquare->setModWheel(modWheel);
                 myBleepSquare->recalculatePitch();
             }  
             break;
@@ -414,6 +420,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
                 myBleepTriangle->setADSRParameters(attack, release, sustain, decay);
                 myBleepTriangle->setMasterVolume(masterVolume);
                 myBleepTriangle->pitchWheelMoved(pitchWheel);
+                myBleepTriangle->setModWheel(modWheel);
                 myBleepTriangle->recalculatePitch();
             }
             break;
@@ -424,6 +431,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
                 myWhiteNoise->setADSRParameters(attack, release, sustain, decay);
                 myWhiteNoise->setMasterVolume(masterVolume);
                 myWhiteNoise->pitchWheelMoved(pitchWheel);
+                myWhiteNoise->setModWheel(modWheel);
                 myWhiteNoise->recalculatePitch();
             }
             break;
@@ -435,6 +443,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
                 mySineBeats->setADSRParameters(attack, release, sustain, decay);
                 mySineBeats->setMasterVolume(masterVolume);    
                 mySineBeats->pitchWheelMoved(pitchWheel);
+                mySineBeats->setModWheel(modWheel);
                 mySineBeats->recalculatePitch();
             }
             break;
@@ -446,6 +455,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
                 myRissetBeats->setADSRParameters(attack, release, sustain, decay);
                 myRissetBeats->setMasterVolume(masterVolume);
                 myRissetBeats->pitchWheelMoved(pitchWheel);
+                myRissetBeats->setModWheel(modWheel);
                 myRissetBeats->recalculatePitch();
             }
             break;
@@ -457,6 +467,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
                 myOrgan->setADSRParameters(attack, release, sustain, decay);
                 myOrgan->setMasterVolume(masterVolume);
                 myOrgan->pitchWheelMoved(pitchWheel);
+                myOrgan->setModWheel(modWheel);
                 myOrgan->recalculatePitch();
             }
 

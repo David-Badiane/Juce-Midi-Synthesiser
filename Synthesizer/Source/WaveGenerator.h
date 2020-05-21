@@ -81,12 +81,13 @@ public:
 		masterGain = volz;
 	}
 
+	void setModWheel(double pos) {
+		modWheel = pos;
+	}
+
 	void renderNextBlock(AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override
 	{
 	}
-		
-	double masterGain;
-	double wheelCoordinate;
 
 	void setPitchBend(int pitchWheelPos)
 	{
@@ -125,6 +126,12 @@ public:
 		hertz *= std::pow(2.0, centsOffset / 1200);
 		return hertz;
 	}
+
+	double masterGain;
+	double wheelCoordinate;
+	double modWheel;
+
+	bool decrescentmod = false;
 
 
 protected:

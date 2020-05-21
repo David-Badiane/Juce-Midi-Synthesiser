@@ -68,6 +68,7 @@ public:
     double cutoff;
     double masterVolume;
     double pitchWheel;
+    double modWheel;
     MidiKeyboardState keyboardState;
 
 

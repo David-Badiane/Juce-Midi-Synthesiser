@@ -30,6 +30,7 @@ private:
     Filter filterGui;
     Slider masterVol;
     Slider pitchWheel;
+    Slider modWheel;
 
     Slider::Listener* slider;
     void sliderValueChanged(Slider* slider) override;

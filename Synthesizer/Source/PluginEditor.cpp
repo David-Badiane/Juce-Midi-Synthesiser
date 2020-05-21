@@ -7,7 +7,7 @@ SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudi
     :AudioProcessorEditor(&p), processor(p), oscGui(p), envGui(p), filterGui(p),
     keyboardComponent(p.keyboardState, MidiKeyboardComponent::horizontalKeyboard)
 {
-    setSize(700, 300);
+    setSize(900, 300);
     setResizable(true, true);
 
     masterVol.setSliderStyle(Slider::LinearVertical);
@@ -22,10 +22,17 @@ SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudi
     pitchWheel.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
     pitchWheel.setValue(0.0);
 
+    modWheel.setSliderStyle(Slider::LinearVertical);
+    modWheel.setRange(0, 1, double(1 / 128));
+    modWheel.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
+    modWheel.setValue(0.0);
+
     masterVol.addListener(this);
     pitchWheel.addListener(this);
+    modWheel.addListener(this);
 
     addAndMakeVisible(&pitchWheel);
+    addAndMakeVisible(&modWheel);
     addAndMakeVisible(&masterVol);
     addAndMakeVisible(&oscGui);
     addAndMakeVisible(&envGui);
@@ -54,6 +61,7 @@ void SynthesizerAudioProcessorEditor::resized()
     const int componentHeight = 200;
 
     pitchWheel.setBounds(area.removeFromLeft(componentWidth / 3).removeFromBottom(componentHeight / 2).removeFromTop(componentHeight - 50));
+    modWheel.setBounds(area.removeFromLeft(componentWidth / 3).removeFromBottom(componentHeight / 2).removeFromTop(componentHeight - 50));
     pitchWheel.onDragEnd = [this] { pitchWheel.setValue(0.0, dontSendNotification); 
                                     processor.pitchWheel = 0;
                                    };
@@ -70,5 +78,6 @@ void SynthesizerAudioProcessorEditor::resized()
 void SynthesizerAudioProcessorEditor::sliderValueChanged(Slider* slider) {
     processor.masterVolume = masterVol.getValue();
     processor.pitchWheel = pitchWheel.getValue();
+    processor.modWheel = modWheel.getValue();
 }
 
