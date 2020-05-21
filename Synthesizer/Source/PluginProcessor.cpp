@@ -38,6 +38,7 @@ SynthesizerAudioProcessor::SynthesizerAudioProcessor()
     pitchWheel = 0;
     oscBoxSelected = 1;
     bendExt = 2;
+    numVoices = 3;
     initialiseSynth();
 }
 

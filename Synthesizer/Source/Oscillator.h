@@ -18,6 +18,7 @@ public:
 
 private:
     ComboBox oscMenu;
+    ComboBox numVoices;
     ComboBox::Listener* boxState;
 
     Slider deltaFreq;

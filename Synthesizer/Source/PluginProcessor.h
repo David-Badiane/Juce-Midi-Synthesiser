@@ -62,7 +62,7 @@ public:
 
     int oscBoxSelected;
     double deltaFrequency;
-    const int numVoices = 3;
+    int numVoices;
 
     int bendExt;
     void initialiseSynth();
