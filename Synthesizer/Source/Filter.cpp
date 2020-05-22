@@ -22,20 +22,27 @@ Filter::Filter(SynthesizerAudioProcessor& p) :
     addAndMakeVisible(&filterKind);
    
     filterCutoff.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    filterCutoff.setLookAndFeel(&knobStyle);
-    filterCutoff.setRange(20.0, 10000.0);
+    filterCutoff.setRange(20.0, 10000.0, 1.0);
+    filterCutoff.setTextValueSuffix("cutoff");
     filterCutoff.setValue(400.0);
     filterCutoff.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     filterCutoff.setPopupDisplayEnabled(true, true, this);
     filterCutoff.setSkewFactorFromMidPoint(400);
+    filterCutoff.setLookAndFeel(&myLookAndFeelV1);
+    filterCutoff.setSliderStyle(Slider::RotaryVerticalDrag);
+    
     addAndMakeVisible(&filterCutoff);
 
     filterRes.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    filterRes.setLookAndFeel(&knobStyle);
-    filterRes.setRange(1, 5);
+    filterRes.setRange(1.0, 5.0, 0.1);
     filterRes.setValue(1);
     filterRes.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    filterRes.setTextValueSuffix("res");
+    filterRes.setSkewFactorFromMidPoint(2.5);
     filterRes.setPopupDisplayEnabled(true, true, this);
+    filterRes.setLookAndFeel(&myLookAndFeelV1);
+    filterRes.setSliderStyle(Slider::RotaryVerticalDrag);
+
     addAndMakeVisible(&filterRes);
 
     filterCutoff.addListener(this);
@@ -47,23 +54,17 @@ Filter::Filter(SynthesizerAudioProcessor& p) :
 
 Filter::~Filter()
 {
-    filterCutoff.setLookAndFeel(nullptr);
-    filterRes.setLookAndFeel(nullptr);
 }
 
 void Filter::paint(Graphics& g)
 {
     //background ui stuff
     juce::Rectangle<int> titleArea(0, 10, getWidth(), 20);
-
-    g.setColour(Colours::lightgrey);
-    g.setFont(Font("Courier", 15.0f, Font::bold));
+    g.setColour(Colours::white);
     g.drawText("Filter", titleArea, Justification::centredTop);
-
-    juce::Rectangle <float> area(25, 33, 150, 150);
-
-    g.setColour(Colours::darkgoldenrod);
-    g.drawRoundedRectangle(area, 20.0f, 8.0f);
+    juce::Rectangle <float> area(25, 25, 150, 150);
+    g.setColour(Colours::aliceblue);
+    g.drawRoundedRectangle(area, 20.0f, 2.0f);
 }
 
 void Filter::resized()
