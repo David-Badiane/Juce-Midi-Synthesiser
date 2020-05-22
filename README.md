@@ -1,4 +1,5 @@
-# SubSynth
+<p align ="center" > <img width =700" height ="400" src = "/logo.png"> </p>
+
 
 The SubSynth is a simple synthesizer with eleven different oscillator voices implemented througha Juce Audio Plugin.   
 The code is divided into the PluginEditor,  the PluginProcessor and many other classes implemented by header files and  cpp files.
@@ -16,3 +17,7 @@ Those elements are controlled by :
 - Master gain slider, found in the right part of the app;
 - Pitch bend extension slider, Pitch bend slider and Modulation bend slider next to the keyboard.
 
+It's important that the user organises files in the subsequent structure into juce :
+<p align ="center" > <img width =700" height ="400" src = "/form.png"> </p>
+  
+  In the images folder we put the logo and the knob, which have to be listed as Binary Code. We also included the juce library file necessary to run the plugin. 
