@@ -14,10 +14,12 @@ public:
 
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound*, int) override 
 	{
+		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
+		originalNoteFreq = noteFrequency;
 		adsr.noteOn();
 		level = velocity * 0.25 ;
 		modulo = 0.0;
-		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
+		
 		inc = 2 * noteFrequency /getSampleRate();
 	}
 

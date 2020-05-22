@@ -15,11 +15,13 @@ public:
 
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound*, int) override{
 
+		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
+		originalNoteFreq = noteFrequency;
 		adsr.noteOn();
 		inc = 0;
 		currentAngle = 0.0;
 		level = velocity * 0.25 ;
-		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
+		
 		inc = noteFrequency / getSampleRate();
 		angleDelta = inc * 2.0 * double_Pi;
 		
@@ -38,6 +40,7 @@ public:
 		adsr.setParameters(adsrParameters);
 		processBlock(outputBuffer, startSample, numSamples);
 	}
+
 
 private :
 

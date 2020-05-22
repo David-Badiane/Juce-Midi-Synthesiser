@@ -65,6 +65,7 @@ public:
     int numVoices;
 
     int bendExt;
+    int fxSelected = 0;
     void initialiseSynth();
     double cutoff;
     double masterVolume;

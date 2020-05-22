@@ -15,9 +15,11 @@ public:
 
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound*, int) override 
 	{
+		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
+		originalNoteFreq = noteFrequency;
 		adsr.noteOn();
 		deltaFreq = 4;
-		noteFrequency = noteHz(midiNoteNumber, pitchBendCents());
+		
 		for (int i = 0; i < 2; i++)
 		{
 			currentAngle[i] = 0;

@@ -352,6 +352,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 1:
             if ((mySine = dynamic_cast<SineWaveVoice*>(mySynth.getVoice(i))))
             {
+                mySine->setFx(fxSelected);
                 mySine->setADSRParameters(attack, decay, sustain, release);
                 mySine->setMasterVolume(masterVolume);
                 mySine->setBendExtension(bendExt);

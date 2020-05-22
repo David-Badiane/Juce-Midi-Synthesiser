@@ -42,6 +42,7 @@ SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudi
     pitchWheel.addListener(this);
     modWheel.addListener(this);
     bendExtension.addListener(this);
+    toggleFX.addListener(this);
 
     addAndMakeVisible(&bendExtension);
     addAndMakeVisible(&pitchWheel);
@@ -50,6 +51,7 @@ SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudi
     addAndMakeVisible(&oscGui);
     addAndMakeVisible(&envGui);
     addAndMakeVisible(&filterGui);
+    addAndMakeVisible(&toggleFX);
 
 
     addAndMakeVisible(keyboardComponent);
@@ -75,10 +77,12 @@ void SynthesizerAudioProcessorEditor::paint(Graphics& g)
     steps++;
     juce::Rectangle<int> titleArea1(0, 30, 60, 40);
     juce::Rectangle<int> titleArea2(9, 20, 40, 30);
+    juce::Rectangle<int> titleArea3(12.5, 180, 20, 10);
     g.setColour(Colours::lightgrey);
     g.setFont(Font("Courier", 9.0f, Font::italic));
     g.drawText("BEND", titleArea2, Justification::centred);
     g.drawText("INTERVAL", titleArea1, Justification::centred);
+    g.drawText("FX", titleArea3, Justification::centred);
     repaint();
    
 }
@@ -111,6 +115,10 @@ void SynthesizerAudioProcessorEditor::resized()
     bendExtension.onDragStart = [this] { bendExtension.setColour(bendExtension.thumbColourId, Colours::black); };
     bendExtension.onDragEnd = [this] { bendExtension.setColour(bendExtension.thumbColourId, Colours::purple);};
 
+    toggleFX.setColour(toggleFX.buttonColourId, Colours::purple);
+
+   
+    toggleFX.setBounds(juce::Rectangle<int>(12.5, 190, 20, 10));
     juce::Rectangle<int> extArea(20, 50, 20, 100);
     bendExtension.setBounds(extArea);
     pitchWheel.setBounds(area.removeFromLeft(componentWidth / 9).removeFromBottom(componentHeight / 2).removeFromTop(componentHeight - 50));
@@ -129,5 +137,12 @@ void SynthesizerAudioProcessorEditor::sliderValueChanged(Slider* slider) {
     processor.pitchWheel = pitchWheel.getValue();
     processor.modWheel = modWheel.getValue();
     processor.bendExt = bendExtension.getValue();
+}
+
+
+void SynthesizerAudioProcessorEditor::buttonClicked(Button* button) {
+    if (button == &toggleFX) {
+        processor.fxSelected++;
+    }
 }
 

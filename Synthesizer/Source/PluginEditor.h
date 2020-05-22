@@ -8,7 +8,8 @@
 
 
 class SynthesizerAudioProcessorEditor : public AudioProcessorEditor,
-                                        public Slider::Listener
+                                        public Slider::Listener,
+                                        public Button::Listener
 {
 public:
     SynthesizerAudioProcessorEditor(SynthesizerAudioProcessor&);
@@ -17,7 +18,6 @@ public:
     //==============================================================================
     void paint(Graphics&) override;
     void resized() override;
-    //void timerCallback() override;
 
     float steps = 0.0f;
 
@@ -35,10 +35,14 @@ private:
     Slider bendExtension;
     Slider pitchWheel;
     Slider modWheel;
+    TextButton toggleFX;
 
     Slider::Listener* slider;
-    void sliderValueChanged(Slider* slider) override;
 
+    void sliderValueChanged(Slider* slider) override;
+    void buttonClicked(Button* button) override;
+
+    
     
     MidiKeyboardComponent keyboardComponent;    
     TextEditor midiMessagesBox;

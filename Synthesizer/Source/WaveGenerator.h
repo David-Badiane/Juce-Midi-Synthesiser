@@ -133,18 +133,27 @@ public:
 	
 	void stretchFrequencies() {
 		int sign = 1;
-		if (noteFrequency > 10000) {
-			decrescentmod = true;
-		}
-		else if (noteFrequency < 40) {
-			decrescentmod = false;
-		}
-		if (decrescentmod) {
-			sign = -1;
-		}
 
-		noteFrequency *= std::pow(2.0, 64 * modWheel * sign / 1200); //change pitchBendCents() with modwheel
-		inc = noteFrequency / getSampleRate();
+		if (fxSelected % numFx == 1) {
+			if (noteFrequency > 10000) {
+				decrescentmod = true;
+			}
+			else if (noteFrequency < 40) {
+				decrescentmod = false;
+			}
+			if (decrescentmod) {
+				sign = -1;
+			}
+			noteFrequency *= std::pow(2.0, 64 * modWheel * sign / 1200);
+			inc = noteFrequency / getSampleRate();
+		}
+		else if (fxSelected % numFx == 0){
+			sign = -1;
+			if (noteFrequency >= originalNoteFreq / 2) {
+				noteFrequency *= std::pow(2.0, 64 * modWheel * sign / 1200);
+				inc = noteFrequency / getSampleRate();
+			}
+		}
 	}
 
 //========================================================================================
@@ -167,6 +176,10 @@ public:
 	{
 	}
 
+	void setFx(int val) {
+		fxSelected = val;
+	}
+
 
 protected:
 
@@ -176,10 +189,13 @@ protected:
 	double inc;
 
 	bool decrescentmod = false;
+	int fxSelected = 0;
+	int numFx = 2;
 	ADSR adsr;
 	ADSR::Parameters adsrParameters;
 
 	int pitchBendUpSemitones = 2;
 	int pitchBendDownSemitones = -2;
 	double noteFrequency;
+	double originalNoteFreq;
 };
