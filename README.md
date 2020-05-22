@@ -16,3 +16,5 @@ Those elements are controlled by :
 - Master gain slider, found in the right part of the app;
 - Pitch and mod wheels
 - Pitch amount slider
+
+<img src = "Synthesizer/images/interface.PNG" width = "1000" >
