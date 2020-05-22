@@ -1,5 +1,7 @@
 ![logo](https://github.com/David-Badiane/Juce-Midi-Synthesiser/blob/master/Synthesizer/images/whatever.png)
 
+Unzip subsynth.zip and drop it in your VST3 folder to use it.
+
 The SubSynth is a simple synthesizer with eleven different oscillator voices implemented through Juce.   
 The code is divided into the PluginEditor,  the PluginProcessor, the two main objects, and all the other classes controlled by these first two.
 The main components of this synthesizer are:
