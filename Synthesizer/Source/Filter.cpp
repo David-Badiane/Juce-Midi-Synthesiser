@@ -54,17 +54,20 @@ Filter::Filter(SynthesizerAudioProcessor& p) :
 
 Filter::~Filter()
 {
+    filterCutoff.setLookAndFeel(nullptr);
+    filterRes.setLookAndFeel(nullptr);
 }
 
 void Filter::paint(Graphics& g)
 {
     //background ui stuff
     juce::Rectangle<int> titleArea(0, 10, getWidth(), 20);
-    g.setColour(Colours::white);
+    g.setColour(Colours::lightgrey);
+    g.setFont(Font("Courier", 15.0f, Font::bold));
     g.drawText("Filter", titleArea, Justification::centredTop);
-    juce::Rectangle <float> area(25, 25, 150, 150);
-    g.setColour(Colours::aliceblue);
-    g.drawRoundedRectangle(area, 20.0f, 2.0f);
+    juce::Rectangle <float> area(25, 33, 150, 150);
+    g.setColour(Colours::orange);
+    g.drawRoundedRectangle(area, 20.0f, 8.0f);
 }
 
 void Filter::resized()

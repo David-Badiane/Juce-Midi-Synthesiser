@@ -24,7 +24,7 @@ void myLookAndFeelV1::drawRotarySlider(Graphics& g,
 
         const int frames = img1.getHeight() / img1.getWidth();
         const int frameId = (int)ceil(rotation * ((double)frames - 1.0));
-        const float radius = jmin(width / 2.0f, height / 2.0f);
+        const float radius = jmin(width / 2.0f, height / 2.0f) - 10;
         const float centerX = x + width * 0.5f;
         const float centerY = y + height * 0.5f;
         const float rx = centerX - radius - 1.0f;

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="odxbYo" name="Synthesizer" projectType="audioplug" jucerVersion="5.4.7"
-              pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn">
+              pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
+              includeBinaryInJuceHeader="1">
   <MAINGROUP id="V2pw9V" name="Synthesizer">
     <GROUP id="{23E6D25F-7439-09A0-401B-8F408E68B913}" name="Source">
       <GROUP id="{978AAFFC-4231-8A42-F4C7-9A7E109765BF}" name="Waves">
@@ -23,8 +24,8 @@
               file="Source/WhiteNoiseWave.h"/>
       </GROUP>
       <GROUP id="{EC326EB4-DC25-FCB2-66AD-0FB2A439FCA1}" name="images">
-        <FILE id="M1K8ih" name="whatever.png" compile="0" resource="1" file="../../GitHub/Juce-Midi-Synthesiser/Synthesizer/images/whatever.png"/>
-        <FILE id="aDTPuu" name="Carbon.png" compile="0" resource="1" file="../../GitHub/Juce-Midi-Synthesiser/Synthesizer/images/Carbon.png"/>
+        <FILE id="Kd1OKG" name="Carbon.png" compile="0" resource="1" file="images/Carbon.png"/>
+        <FILE id="IBvaXq" name="whatever.png" compile="0" resource="1" file="images/whatever.png"/>
       </GROUP>
       <GROUP id="{48890E5B-B2D7-74E0-F75B-9CEBF752079F}" name="UserInterface">
         <FILE id="RGVlqI" name="Envelope.cpp" compile="1" resource="0" file="Source/Envelope.cpp"/>
