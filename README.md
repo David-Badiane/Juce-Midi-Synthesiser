@@ -15,9 +15,3 @@ Those elements are controlled by :
 - the Filter GUI;
 - Master gain slider, found in the right part of the app;
 - Pitch bend extension slider, Pitch bend slider and Modulation bend slider next to the keyboard.
-
-It's important that the user organises files in the subsequent structure into juce :
-
-![form](https://github.com/David-Badiane/Juce-Midi-Synthesiser/blob/master/Synthesizer/images/form.PNG) 
-
-In the images folder we put the logo and the knob, which have to be listed as Binary Code. We also included the juce library file necessary to run the plugin. 
