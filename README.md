@@ -16,6 +16,7 @@ Those elements are controlled by :
 - Master gain slider, found in the right part of the app;
 - Pitch and mod wheels
 - Pitch amount slider
+- FX switch button
 - a virtual midi keyboard;
 
 From **options** it is possible to acquire external midi inputs.
