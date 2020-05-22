@@ -1,4 +1,4 @@
-<p align ="center" > <img width =700" height ="400" src = "/images/logo.png"> </p>
+<p align ="center" > <img width =700" height ="200" src = "/Synthesizer/images/logo.png"> </p>
 
 
 The SubSynth is a simple synthesizer with eleven different oscillator voices implemented througha Juce Audio Plugin.   
@@ -18,6 +18,6 @@ Those elements are controlled by :
 - Pitch bend extension slider, Pitch bend slider and Modulation bend slider next to the keyboard.
 
 It's important that the user organises files in the subsequent structure into juce :
-<p align ="center" > <img width =700" height ="400" src = "/images/form.png"> </p>
+<p align ="center" > <img width =700" height ="400" src = "/synthesizer/images/form.png"> </p>
   
   In the images folder we put the logo and the knob, which have to be listed as Binary Code. We also included the juce library file necessary to run the plugin. 
