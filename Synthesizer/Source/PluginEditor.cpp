@@ -12,11 +12,11 @@ SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudi
 
     
     masterVol.setSliderStyle(Slider::LinearVertical);
-    masterVol.setRange(0.0, 3, 0.01);
+    masterVol.setRange(-64, 16, 1);
     masterVol.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
     masterVol.setPopupDisplayEnabled(true, false, this);
-    masterVol.setTextValueSuffix("Master Volume");
-    masterVol.setSkewFactorFromMidPoint(0.5);
+    masterVol.setTextValueSuffix("dB Master Volume");
+    masterVol.setSkewFactorFromMidPoint(-32);
     masterVol.setValue(1.0);
 
     pitchWheel.setSliderStyle(Slider::LinearVertical);
