@@ -17,7 +17,7 @@ Those elements are controlled by :
 - Master gain slider, found in the right part of the app;
 - a virtual midi keyboard;
 - Pitch and mod sliders, just next to the midi keyboard;
-- bend extension slider;
+- pitch bend interval slider;
 - mod FX switch button;
 
 
