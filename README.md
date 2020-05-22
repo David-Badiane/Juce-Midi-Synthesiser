@@ -6,18 +6,20 @@ The main components of this synthesizer are:
 - a Synthesiser class object called mySynth;
 - eleven SythesiserSound/SynthesiserVoice class objects;
 - a multi-type filter;
-- ADSR volume envelope
-- pitch/mod FXs
+- ADSR volume envelope;
+- pitch bend;
+- four different mod FXs.
 
 Those elements are controlled by :
-- the Oscillator GUI;
+- the Oscillator GUI (the slider controls the frequency of beats for the last three voices);
 - the Envelope GUI;
 - the Filter GUI;
 - Master gain slider, found in the right part of the app;
-- Pitch and mod wheels
-- Pitch amount slider
-- FX switch button
 - a virtual midi keyboard;
+- Pitch and mod sliders, just next to the midi keyboard;
+- bend extension slider;
+- mod FX switch button;
+
 
 From **options** it is possible to acquire external midi inputs.
 
