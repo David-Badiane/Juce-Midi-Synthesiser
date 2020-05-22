@@ -133,7 +133,7 @@ void SynthesizerAudioProcessorEditor::resized()
 
 
 void SynthesizerAudioProcessorEditor::sliderValueChanged(Slider* slider) {
-    processor.masterVolume = masterVol.getValue();
+    processor.masterVolume = std::pow(10, masterVol.getValue() / 20);
     processor.pitchWheel = pitchWheel.getValue();
     processor.modWheel = modWheel.getValue();
     processor.bendExt = bendExtension.getValue();

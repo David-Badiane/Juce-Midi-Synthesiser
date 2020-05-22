@@ -50,7 +50,7 @@ private :
 		while (--numSamples >= 0)
 		{
 
-			auto Sample = (float)(std::sin(currentAngle) * std::pow(2, level * masterGain));
+			auto Sample = (float)(std::sin(currentAngle) * level * masterGain);
 			
 			for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
 				outputBuffer.addSample(i, startSample, adsr.getNextSample() * Sample);
