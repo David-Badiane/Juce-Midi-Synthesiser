@@ -14,4 +14,5 @@ Those elements are controlled by :
 - the Envelope GUI;
 - the Filter GUI;
 - Master gain slider, found in the right part of the app;
-- Pitch bend extension slider, Pitch bend slider and Modulation bend slider next to the keyboard.
+- Pitch and mod wheels
+- Pitch amount slider
