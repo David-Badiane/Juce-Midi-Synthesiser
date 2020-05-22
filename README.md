@@ -14,9 +14,9 @@ Those elements are controlled by :
 - the Oscillator GUI (the slider controls the frequency of beats for the last three voices);
 - the Envelope GUI;
 - the Filter GUI;
-- Master gain slider, found in the right part of the app;
+- master gain slider in dB, found in the right part of the app;
 - a virtual midi keyboard;
-- Pitch and mod sliders, just next to the midi keyboard;
+- pitch and mod sliders, just next to the midi keyboard;
 - pitch bend interval slider;
 - mod FX switch button;
 
