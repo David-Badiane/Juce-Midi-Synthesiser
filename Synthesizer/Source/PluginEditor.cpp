@@ -12,10 +12,11 @@ SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudi
 
     
     masterVol.setSliderStyle(Slider::LinearVertical);
-    masterVol.setRange(0.0, 2, 0.01);
+    masterVol.setRange(0.0, 3, 0.01);
     masterVol.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
     masterVol.setPopupDisplayEnabled(true, false, this);
     masterVol.setTextValueSuffix("Master Volume");
+    masterVol.setSkewFactorFromMidPoint(0.5);
     masterVol.setValue(1.0);
 
     pitchWheel.setSliderStyle(Slider::LinearVertical);
@@ -52,7 +53,7 @@ SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudi
 
 
     addAndMakeVisible(keyboardComponent);
-
+    logo = ImageCache::getFromMemory(BinaryData::whatever_png, BinaryData::whatever_pngSize);
 }
 
 SynthesizerAudioProcessorEditor::~SynthesizerAudioProcessorEditor()
@@ -66,17 +67,18 @@ SynthesizerAudioProcessorEditor::~SynthesizerAudioProcessorEditor()
 
 //==============================================================================
 void SynthesizerAudioProcessorEditor::paint(Graphics& g)
-{
+{       
+    g.drawImage(logo, 670,0,130,38,0,0,logo.getWidth(), logo.getHeight());
     auto baseColour = Colour(0x282C34);
     juce::Rectangle<float> area = getLocalBounds().toFloat();
-    g.fillAll(baseColour.contrasting(((float)std::sin(lfoFreq / 1000 * steps) + (float)1.8) / (float)20));
+    g.fillAll(baseColour.contrasting(((float)std::sin(lfoFreq / 1000 * steps) + (float)1.8) / (float)16));
     steps++;
-    juce::Rectangle<int> titleArea1(9, 30, 40, 40);
+    juce::Rectangle<int> titleArea1(0, 30, 60, 40);
     juce::Rectangle<int> titleArea2(9, 20, 40, 30);
     g.setColour(Colours::lightgrey);
-    g.setFont(Font("Courier", 11.0f, Font::bold));
-    g.drawText("Bend", titleArea2, Justification::centred);
-    g.drawText("amount", titleArea1, Justification::centred);
+    g.setFont(Font("Courier", 9.0f, Font::italic));
+    g.drawText("BEND", titleArea2, Justification::centred);
+    g.drawText("INTERVAL", titleArea1, Justification::centred);
     repaint();
    
 }
@@ -118,8 +120,6 @@ void SynthesizerAudioProcessorEditor::resized()
     filterGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     envGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     masterVol.setBounds(area.removeFromRight(componentWidth / 3).removeFromBottom(componentHeight - 30).removeFromTop(componentHeight - 50));
-   
-
     
 }
 

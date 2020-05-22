@@ -23,7 +23,7 @@ SynthesizerAudioProcessor::SynthesizerAudioProcessor()
             std::make_unique<AudioParameterFloat>("release", "Release", NormalisableRange<float>(0.0001f, 8.0f), 0.01f),
             std::make_unique<AudioParameterFloat>("filterType", "FilterType", NormalisableRange<float>(0.0f, 2.0f), 0.0f),
             std::make_unique<AudioParameterFloat>("filterKind", "FilterKind", NormalisableRange<float>(0.0f, 2.0f), 0.0f),
-            std::make_unique<AudioParameterFloat>("filterRes", "FilterRes", NormalisableRange<float>(1.0f, 5.0f), 1.0f),
+            std::make_unique<AudioParameterFloat>("filterRes", "FilterRes", NormalisableRange<float>(1.0f, 5.0f, 0.1f), 1.0f),
 
         })
 
@@ -352,7 +352,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 1:
             if ((mySine = dynamic_cast<SineWaveVoice*>(mySynth.getVoice(i))))
             {
-                mySine->setADSRParameters(attack, release, sustain, decay);
+                mySine->setADSRParameters(attack, decay, sustain, release);
                 mySine->setMasterVolume(masterVolume);
                 mySine->setBendExtension(bendExt);
                 mySine->pitchWheelMoved(pitchWheel);
@@ -364,7 +364,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 2:
             if ((mySaw = dynamic_cast<SawWaveVoice*>(mySynth.getVoice(i))))
             {
-                mySaw->setADSRParameters(attack, release, sustain, decay);
+                mySaw->setADSRParameters(attack, decay, sustain, release);
                 mySaw->setMasterVolume(masterVolume);
                 mySaw->setBendExtension(bendExt);
                 mySaw->pitchWheelMoved(pitchWheel);
@@ -377,7 +377,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 3:
             if ((mySquare = dynamic_cast<SquareWaveVoice*>(mySynth.getVoice(i))))
             {
-                mySquare->setADSRParameters(attack, release, sustain, decay);
+                mySquare->setADSRParameters(attack, decay, sustain, release);
                 mySquare->setMasterVolume(masterVolume);
                 mySquare->setBendExtension(bendExt);
                 mySquare->pitchWheelMoved(pitchWheel);
@@ -389,7 +389,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 4:
             if ((myTriangle = dynamic_cast<TriangleWaveVoice*>(mySynth.getVoice(i))))
             {
-                myTriangle->setADSRParameters(attack, release, sustain, decay);
+                myTriangle->setADSRParameters(attack, decay, sustain, release);
                 myTriangle->setMasterVolume(masterVolume);
                 myTriangle->setBendExtension(bendExt);
                 myTriangle->pitchWheelMoved(pitchWheel);
@@ -401,7 +401,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 5:
             if ((myBleepSaw = dynamic_cast<BleepSawWaveVoice*>(mySynth.getVoice(i))))
             {
-                myBleepSaw->setADSRParameters(attack, release, sustain, decay);
+                myBleepSaw->setADSRParameters(attack, decay, sustain, release);
                 myBleepSaw->setMasterVolume(masterVolume);
                 myBleepSaw->setBendExtension(bendExt);
                 myBleepSaw->pitchWheelMoved(pitchWheel);
@@ -413,7 +413,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 6:
             if ((myBleepSquare = dynamic_cast<BleepSquareWaveVoice*>(mySynth.getVoice(i))))
             {
-                myBleepSquare->setADSRParameters(attack, release, sustain, decay);
+                myBleepSquare->setADSRParameters(attack, decay, sustain, release);
                 myBleepSquare->setMasterVolume(masterVolume);
                 myBleepSquare->setBendExtension(bendExt);
                 myBleepSquare->pitchWheelMoved(pitchWheel);
@@ -425,7 +425,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 7:
             if ((myBleepTriangle = dynamic_cast<BleepTriangleWaveVoice*>(mySynth.getVoice(i))))
             {
-                myBleepTriangle->setADSRParameters(attack, release, sustain, decay);
+                myBleepTriangle->setADSRParameters(attack, decay, sustain, release);
                 myBleepTriangle->setMasterVolume(masterVolume);
                 myBleepTriangle->setBendExtension(bendExt);
                 myBleepTriangle->pitchWheelMoved(pitchWheel);
@@ -437,7 +437,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 8:
             if ((myWhiteNoise = dynamic_cast<WhiteNoiseWaveVoice*>(mySynth.getVoice(i))))
             {
-                myWhiteNoise->setADSRParameters(attack, release, sustain, decay);
+                myWhiteNoise->setADSRParameters(attack, decay, sustain, release);
                 myWhiteNoise->setMasterVolume(masterVolume);
                 myWhiteNoise->setBendExtension(bendExt);
                 myWhiteNoise->pitchWheelMoved(pitchWheel);
@@ -450,7 +450,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
             if ((mySineBeats = dynamic_cast<SineBeatsWaveVoice*>(mySynth.getVoice(i))))
             {   
                 mySineBeats->update_beats(deltaFrequency);
-                mySineBeats->setADSRParameters(attack, release, sustain, decay);
+                mySineBeats->setADSRParameters(attack, decay, sustain, release);
                 mySineBeats->setMasterVolume(masterVolume);
                 mySineBeats->setBendExtension(bendExt);
                 mySineBeats->pitchWheelMoved(pitchWheel);
@@ -463,7 +463,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
             if ((myRissetBeats = dynamic_cast<SineRissetBeatsWaveVoice*>(mySynth.getVoice(i))))
             {
                 myRissetBeats->update_beats(deltaFrequency);
-                myRissetBeats->setADSRParameters(attack, release, sustain, decay);
+                myRissetBeats->setADSRParameters(attack, decay, sustain, release);
                 myRissetBeats->setMasterVolume(masterVolume);
                 myRissetBeats->setBendExtension(bendExt);
                 myRissetBeats->pitchWheelMoved(pitchWheel);
@@ -476,7 +476,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
             if ((myOrgan = dynamic_cast<OrganWaveVoice*>(mySynth.getVoice(i))))
             {
                 myOrgan->update_beats(deltaFrequency);
-                myOrgan->setADSRParameters(attack, release, sustain, decay);
+                myOrgan->setADSRParameters(attack, decay, sustain, release);
                 myOrgan->setMasterVolume(masterVolume);
                 myOrgan->setBendExtension(bendExt);
                 myOrgan->pitchWheelMoved(pitchWheel);

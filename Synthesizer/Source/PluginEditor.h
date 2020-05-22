@@ -50,6 +50,7 @@ private:
   
     double startTime;
     
+    Image logo;
 
 
     
