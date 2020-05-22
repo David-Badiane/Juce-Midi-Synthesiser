@@ -33,7 +33,7 @@ SynthesizerAudioProcessorEditor::SynthesizerAudioProcessorEditor(SynthesizerAudi
     bendExtension.setRange(0, 12, 1);
     bendExtension.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
     bendExtension.setTextValueSuffix("Bend Extension");
-    bendExtension.setValue(0.0);
+    bendExtension.setValue(2.0);
 	
 	keyboardComponent.setColour(keyboardComponent.blackNoteColourId, Colours::darkslategrey);
     keyboardComponent.setColour(keyboardComponent.whiteNoteColourId, Colours::lightgrey);

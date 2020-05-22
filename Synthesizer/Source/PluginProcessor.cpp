@@ -365,6 +365,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 2:
             if ((mySaw = dynamic_cast<SawWaveVoice*>(mySynth.getVoice(i))))
             {
+                mySaw->setFx(fxSelected);
                 mySaw->setADSRParameters(attack, decay, sustain, release);
                 mySaw->setMasterVolume(masterVolume);
                 mySaw->setBendExtension(bendExt);
@@ -378,6 +379,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 3:
             if ((mySquare = dynamic_cast<SquareWaveVoice*>(mySynth.getVoice(i))))
             {
+                mySquare->setFx(fxSelected);
                 mySquare->setADSRParameters(attack, decay, sustain, release);
                 mySquare->setMasterVolume(masterVolume);
                 mySquare->setBendExtension(bendExt);
@@ -390,6 +392,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 4:
             if ((myTriangle = dynamic_cast<TriangleWaveVoice*>(mySynth.getVoice(i))))
             {
+                myTriangle->setFx(fxSelected);
                 myTriangle->setADSRParameters(attack, decay, sustain, release);
                 myTriangle->setMasterVolume(masterVolume);
                 myTriangle->setBendExtension(bendExt);
@@ -402,6 +405,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 5:
             if ((myBleepSaw = dynamic_cast<BleepSawWaveVoice*>(mySynth.getVoice(i))))
             {
+                myBleepSaw->setFx(fxSelected);
                 myBleepSaw->setADSRParameters(attack, decay, sustain, release);
                 myBleepSaw->setMasterVolume(masterVolume);
                 myBleepSaw->setBendExtension(bendExt);
@@ -414,6 +418,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 6:
             if ((myBleepSquare = dynamic_cast<BleepSquareWaveVoice*>(mySynth.getVoice(i))))
             {
+                myBleepSquare->setFx(fxSelected);
                 myBleepSquare->setADSRParameters(attack, decay, sustain, release);
                 myBleepSquare->setMasterVolume(masterVolume);
                 myBleepSquare->setBendExtension(bendExt);
@@ -426,6 +431,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 7:
             if ((myBleepTriangle = dynamic_cast<BleepTriangleWaveVoice*>(mySynth.getVoice(i))))
             {
+                myBleepTriangle->setFx(fxSelected);
                 myBleepTriangle->setADSRParameters(attack, decay, sustain, release);
                 myBleepTriangle->setMasterVolume(masterVolume);
                 myBleepTriangle->setBendExtension(bendExt);
@@ -438,6 +444,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 8:
             if ((myWhiteNoise = dynamic_cast<WhiteNoiseWaveVoice*>(mySynth.getVoice(i))))
             {
+                myWhiteNoise->setFx(fxSelected);
                 myWhiteNoise->setADSRParameters(attack, decay, sustain, release);
                 myWhiteNoise->setMasterVolume(masterVolume);
                 myWhiteNoise->setBendExtension(bendExt);
@@ -450,6 +457,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 9:
             if ((mySineBeats = dynamic_cast<SineBeatsWaveVoice*>(mySynth.getVoice(i))))
             {   
+                mySineBeats->setFx(fxSelected);
                 mySineBeats->update_beats(deltaFrequency);
                 mySineBeats->setADSRParameters(attack, decay, sustain, release);
                 mySineBeats->setMasterVolume(masterVolume);
@@ -463,6 +471,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 10:
             if ((myRissetBeats = dynamic_cast<SineRissetBeatsWaveVoice*>(mySynth.getVoice(i))))
             {
+                myRissetBeats->setFx(fxSelected);
                 myRissetBeats->update_beats(deltaFrequency);
                 myRissetBeats->setADSRParameters(attack, decay, sustain, release);
                 myRissetBeats->setMasterVolume(masterVolume);
@@ -476,6 +485,7 @@ void SynthesizerAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuff
         case 11:
             if ((myOrgan = dynamic_cast<OrganWaveVoice*>(mySynth.getVoice(i))))
             {
+                myOrgan->setFx(fxSelected);
                 myOrgan->update_beats(deltaFrequency);
                 myOrgan->setADSRParameters(attack, decay, sustain, release);
                 myOrgan->setMasterVolume(masterVolume);

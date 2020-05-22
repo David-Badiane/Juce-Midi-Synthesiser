@@ -133,26 +133,53 @@ public:
 	
 	void stretchFrequencies() {
 		int sign = 1;
-
-		if (fxSelected % numFx == 1) {
-			if (noteFrequency > 10000) {
-				decrescentmod = true;
-			}
-			else if (noteFrequency < 40) {
-				decrescentmod = false;
-			}
-			if (decrescentmod) {
-				sign = -1;
-			}
-			noteFrequency *= std::pow(2.0, 64 * modWheel * sign / 1200);
-			inc = noteFrequency / getSampleRate();
-		}
-		else if (fxSelected % numFx == 0){
+        int fxselection = fxSelected % numFx;
+        
+		switch (fxselection)
+	    {
+		case 0:
 			sign = -1;
 			if (noteFrequency >= originalNoteFreq / 2) {
 				noteFrequency *= std::pow(2.0, 64 * modWheel * sign / 1200);
 				inc = noteFrequency / getSampleRate();
 			}
+			break;
+
+		case 1:
+			if (noteFrequency > 10000) 
+				decrescentmod = true;
+			else if (noteFrequency < 40) 
+				decrescentmod = false;
+			if (decrescentmod) 
+				sign = -1;
+			noteFrequency *= std::pow(2.0, 64 * modWheel * sign / 1200);
+			inc = noteFrequency / getSampleRate();	
+			break;
+
+		case 2:
+			if (noteFrequency > originalNoteFreq + noteFrequency / 40) 
+				decrescentmod = true;
+			else if (noteFrequency < originalNoteFreq - noteFrequency / 40) 
+				decrescentmod = false;
+			if (decrescentmod) 
+				sign = -1;
+			noteFrequency *= std::pow(2.0, 24 * modWheel * sign / 1200);
+			inc = noteFrequency / getSampleRate();
+			break;
+		
+		case 3:
+			
+			if (modWheel == 0)
+				noteFrequency = originalNoteFreq;
+			if (temp > 1) 
+			{
+				temp -= 1;
+				noteFrequency = originalNoteFreq + (randomizer.nextFloat() - 0.5) * noteFrequency ;
+			}
+			inc = noteFrequency / getSampleRate();
+			temp += 0.2*modWheel;
+			break;
+
 		}
 	}
 
@@ -187,10 +214,13 @@ protected:
 	double wheelCoordinate;
 	double modWheel;
 	double inc;
+	double temp = 0;
 
 	bool decrescentmod = false;
 	int fxSelected = 0;
-	int numFx = 2;
+	int numFx = 4;
+	Random randomizer;
+	const juce::BigInteger choose = 12;
 	ADSR adsr;
 	ADSR::Parameters adsrParameters;
 
