@@ -5,7 +5,7 @@ The code is divided into the PluginEditor,  the PluginProcessor and many other c
 The main components of this synthesizer are:
 - a Synthesiser class object calledmySynth;
 - elevenSythesiserSound/SynthesiserVoiceclasses;
-- a multi typefilter;
+- a multi-type filter;
 - a virtual midi keyboard;
 - other sound controlling elements such as an ADSR, the pitch bend, the mod bend, etc.
 
