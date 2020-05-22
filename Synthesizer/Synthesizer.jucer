@@ -22,6 +22,10 @@
         <FILE id="o1TlTs" name="WhiteNoiseWave.h" compile="0" resource="0"
               file="Source/WhiteNoiseWave.h"/>
       </GROUP>
+      <GROUP id="{EC326EB4-DC25-FCB2-66AD-0FB2A439FCA1}" name="images">
+        <FILE id="M1K8ih" name="whatever.png" compile="0" resource="1" file="../../GitHub/Juce-Midi-Synthesiser/Synthesizer/images/whatever.png"/>
+        <FILE id="aDTPuu" name="Carbon.png" compile="0" resource="1" file="../../GitHub/Juce-Midi-Synthesiser/Synthesizer/images/Carbon.png"/>
+      </GROUP>
       <GROUP id="{48890E5B-B2D7-74E0-F75B-9CEBF752079F}" name="UserInterface">
         <FILE id="RGVlqI" name="Envelope.cpp" compile="1" resource="0" file="Source/Envelope.cpp"/>
         <FILE id="JmjQ7q" name="Envelope.h" compile="0" resource="0" file="Source/Envelope.h"/>
@@ -30,6 +34,9 @@
         <FILE id="zwXeBv" name="Filter.h" compile="0" resource="0" file="Source/Filter.h"/>
         <FILE id="fB0yT4" name="Filter.cpp" compile="1" resource="0" file="Source/Filter.cpp"/>
       </GROUP>
+      <FILE id="dcwlJL" name="myLookandFeel.cpp" compile="1" resource="0"
+            file="Source/myLookandFeel.cpp"/>
+      <FILE id="VUXoG2" name="myLookandFeel.h" compile="0" resource="0" file="Source/myLookandFeel.h"/>
       <FILE id="rHoFkV" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="IFv1Rq" name="PluginProcessor.h" compile="0" resource="0"
