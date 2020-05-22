@@ -3,11 +3,11 @@
 The SubSynth is a simple synthesizer with eleven different oscillator voices implemented througha Juce Audio Plugin.   
 The code is divided into the PluginEditor,  the PluginProcessor and many other classes implemented by header files and  cpp files.
 The main components of this synthesizer are:
-- a Synthesiser class object calledmySynth;
-- elevenSythesiserSound/SynthesiserVoiceclasses;
+- a Synthesiser class object called mySynth;
+- eleven SythesiserSound/SynthesiserVoice class objects;
 - a multi-type filter;
-- a virtual midi keyboard;
-- other sound controlling elements such as an ADSR, the pitch bend, the mod bend, etc.
+- ADSR volume envelope
+- pitch/mod FXs
 
 Those elements are controlled by :
 - the Oscillator GUI;
@@ -16,5 +16,8 @@ Those elements are controlled by :
 - Master gain slider, found in the right part of the app;
 - Pitch and mod wheels
 - Pitch amount slider
+- a virtual midi keyboard;
+
+From **options** it is possible to acquire external midi inputs.
 
 <img src = "Synthesizer/images/interface.PNG" width = "1000" >
