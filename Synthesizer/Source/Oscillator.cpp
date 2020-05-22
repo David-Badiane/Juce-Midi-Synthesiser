@@ -41,6 +41,7 @@ Oscillator::Oscillator(SynthesizerAudioProcessor& p) :
     deltaFreq.setValue(10.0f);
     deltaFreq.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     addAndMakeVisible(&deltaFreq);
+    deltaFreq.setColour(deltaFreq.thumbColourId, Colours::red);
     deltaFreq.addListener(this);
 }
 
@@ -52,11 +53,12 @@ void Oscillator::paint(Graphics& g)
 {
     //background stuff
     juce::Rectangle<int> titleArea(0, 10, getWidth(), 20);
-    g.setColour(Colours::white);
+    g.setColour(Colours::lightgrey);
+    g.setFont(Font("Courier", 15.0f, Font::bold));
     g.drawText("Oscillators", titleArea, Justification::centredTop);
-    juce::Rectangle <float> area(25, 25, 150, 150);
+    juce::Rectangle <float> area(25, 33, 150, 150);
     g.setColour(Colours::red);
-    g.drawRoundedRectangle(area, 20.0f, 2.0f);
+    g.drawRoundedRectangle(area, 20.0f, 8.0f);
 }
 
 void Oscillator::resized()
