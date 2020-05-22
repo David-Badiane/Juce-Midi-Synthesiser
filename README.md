@@ -1,7 +1,7 @@
 ![logo](https://github.com/David-Badiane/Juce-Midi-Synthesiser/blob/master/Synthesizer/images/whatever.png)
 
-The SubSynth is a simple synthesizer with eleven different oscillator voices implemented througha Juce Audio Plugin.   
-The code is divided into the PluginEditor,  the PluginProcessor and many other classes implemented by header files and  cpp files.
+The SubSynth is a simple synthesizer with eleven different oscillator voices implemented through Juce.   
+The code is divided into the PluginEditor,  the PluginProcessor, the two main objects, and all the other classes controlled by these first two.
 The main components of this synthesizer are:
 - a Synthesiser class object called mySynth;
 - eleven SythesiserSound/SynthesiserVoice class objects;
