@@ -46,7 +46,6 @@ private:
     
     MidiKeyboardComponent keyboardComponent;    
     TextEditor midiMessagesBox;
-    MidiKeyboardState keyboardState;
     
     double lfoFreq = 20;
 
