@@ -27,7 +27,7 @@ Filter::Filter(SynthesizerAudioProcessor& p) :
     filterCutoff.setValue(400.0);
     filterCutoff.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     filterCutoff.setPopupDisplayEnabled(true, true, this);
-    filterCutoff.setSkewFactorFromMidPoint(400);
+    filterCutoff.setSkewFactorFromMidPoint(1000);
     filterCutoff.setLookAndFeel(&myLookAndFeelV1);
     filterCutoff.setSliderStyle(Slider::RotaryVerticalDrag);
     
